@@ -1,0 +1,1173 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Cody's Playbook</title><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Cody's Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: matchday-programme header with a race-bib countdown, sticky section tabs, then one working view per tab (Today first). */
+:root{
+  --paper:#eef1f5; --card:#ffffff; --ink:#111a2e; --ink-2:#4b5567; --ink-3:#7a8496; --line:#d8dde6;
+  --accent:#1f45c8; --accent-ink:#ffffff; --accent-soft:#e2e8fb;
+  --good:#1e7d47; --good-soft:#dcf2e4; --warn:#9a6411; --warn-soft:#fbefd6; --bad:#b8322a; --bad-soft:#fbe1df;
+  --bib:#ffffff; --bib-ink:#111a2e;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --class-bg:#dbeafe; --class-br:#93c5fd; --class-tx:#1d4ed8;
+  --meet-bg:#dcfce7; --meet-br:#86efac; --meet-tx:#15803d;
+  --pros-bg:#fef9c3; --pros-br:#fde047; --pros-tx:#a16207;
+  --gym-bg:#ffedd5; --gym-br:#fdba74; --gym-tx:#c2410c;
+  --soc-bg:#ede9fe; --soc-br:#c4b5fd; --soc-tx:#6d28d9;
+  --run-bg:#fce7f3; --run-br:#f9a8d4; --run-tx:#be185d;
+  --stud-bg:#e2e8f0; --stud-br:#94a3b8; --stud-tx:#334155;
+  --walk-bg:#ccfbf1; --walk-br:#5eead4; --walk-tx:#0f766e;
+  --meal-bg:#fef2f2; --meal-br:#fca5a5; --meal-tx:#b91c1c;
+  --rout-bg:#e0f2fe; --rout-br:#7dd3fc; --rout-tx:#0369a1;
+  --plan-bg:#e0e7ff; --plan-br:#a5b4fc; --plan-tx:#4338ca;
+  --trans-bg:#f4f4f5; --trans-br:#d4d4d8; --trans-tx:#52525b;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0d1220; --card:#151c2c; --ink:#e7ebf2; --ink-2:#a3adbf; --ink-3:#768196; --line:#263048;
+  --accent:#8aa6ff; --accent-ink:#0d1220; --accent-soft:#1b2547;
+  --good:#5bcf8b; --good-soft:#123323; --warn:#e7b65a; --warn-soft:#33270f; --bad:#ff7b70; --bad-soft:#3a1715;
+  --bib:#f4f6fa; --bib-ink:#111a2e;
+  --class-bg:#0b2a52; --class-br:#1e4b8a; --class-tx:#7fb3ff;
+  --meet-bg:#122b12; --meet-br:#2c5f2c; --meet-tx:#5ddb5d;
+  --pros-bg:#2e2a0b; --pros-br:#6b5e12; --pros-tx:#f5d547;
+  --gym-bg:#33220b; --gym-br:#7a4e15; --gym-tx:#ffb45c;
+  --soc-bg:#24163f; --soc-br:#4c3080; --soc-tx:#b79bff;
+  --run-bg:#3a1029; --run-br:#7a2456; --run-tx:#ff8fc8;
+  --stud-bg:#20242b; --stud-br:#454c58; --stud-tx:#b9c2d0;
+  --walk-bg:#07302c; --walk-br:#15665c; --walk-tx:#5fd8c6;
+  --meal-bg:#331314; --meal-br:#7a2c2e; --meal-tx:#ff9b9b;
+  --rout-bg:#0a2a38; --rout-br:#15556f; --rout-tx:#67cdf0;
+  --plan-bg:#1a1d42; --plan-br:#363d85; --plan-tx:#a5b0ff;
+  --trans-bg:#1c1c1f; --trans-br:#3a3a40; --trans-tx:#a1a1aa;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0d1220; --card:#151c2c; --ink:#e7ebf2; --ink-2:#a3adbf; --ink-3:#768196; --line:#263048;
+  --accent:#8aa6ff; --accent-ink:#0d1220; --accent-soft:#1b2547;
+  --good:#5bcf8b; --good-soft:#123323; --warn:#e7b65a; --warn-soft:#33270f; --bad:#ff7b70; --bad-soft:#3a1715;
+  --bib:#f4f6fa; --bib-ink:#111a2e;
+  --class-bg:#0b2a52; --class-br:#1e4b8a; --class-tx:#7fb3ff;
+  --meet-bg:#122b12; --meet-br:#2c5f2c; --meet-tx:#5ddb5d;
+  --pros-bg:#2e2a0b; --pros-br:#6b5e12; --pros-tx:#f5d547;
+  --gym-bg:#33220b; --gym-br:#7a4e15; --gym-tx:#ffb45c;
+  --soc-bg:#24163f; --soc-br:#4c3080; --soc-tx:#b79bff;
+  --run-bg:#3a1029; --run-br:#7a2456; --run-tx:#ff8fc8;
+  --stud-bg:#20242b; --stud-br:#454c58; --stud-tx:#b9c2d0;
+  --walk-bg:#07302c; --walk-br:#15665c; --walk-tx:#5fd8c6;
+  --meal-bg:#331314; --meal-br:#7a2c2e; --meal-tx:#ff9b9b;
+  --rout-bg:#0a2a38; --rout-br:#15556f; --rout-tx:#67cdf0;
+  --plan-bg:#1a1d42; --plan-br:#363d85; --plan-tx:#a5b0ff;
+  --trans-bg:#1c1c1f; --trans-br:#3a3a40; --trans-tx:#a1a1aa;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--card)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:.01em}
+h2{font-size:30px;font-weight:700;text-transform:uppercase;line-height:1.05}
+h3{font-size:19px;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+.label{font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--f-mono);font-size:12.5px}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+.top{background:var(--card);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:22px 18px}
+.brand h1{font-size:44px;font-weight:700;text-transform:uppercase;line-height:.95}
+.brand h1 span{color:var(--accent)}
+.brand p{margin-top:6px;color:var(--ink-2);font-size:14px;max-width:60ch}
+.bib{background:var(--bib);color:var(--bib-ink);border:2px solid var(--bib-ink);border-radius:10px;padding:8px 14px 10px;min-width:210px;position:relative;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.bib::before,.bib::after{content:"";position:absolute;top:8px;width:7px;height:7px;border-radius:50%;border:1.5px solid var(--bib-ink);background:transparent}
+.bib::before{left:8px}.bib::after{right:8px}
+.bib .ev{font-family:var(--f-display);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-align:center}
+.bib .big{font-family:var(--f-display);font-weight:700;font-size:46px;line-height:1;text-align:center;font-variant-numeric:tabular-nums}
+.bib .sub{font-family:var(--f-mono);font-size:11px;text-align:center}
+
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--card);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tab{appearance:none;border:0;background:none;padding:12px 14px 10px;font-family:var(--f-display);font-weight:600;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--ink)}
+
+main .wrap{padding-block:26px 60px;display:grid;gap:22px}
+section[role="tabpanel"]{display:grid;gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}
+.card > h3 + *{margin-top:12px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.stack{display:grid;gap:16px}
+@media (max-width:860px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}.brand h1{font-size:36px}}
+
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;border:1px solid var(--line);background:var(--paper);color:var(--ink-2);white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good);border-color:transparent}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.pill.acc{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+
+.nownext{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.nownext > div{padding:14px 18px;display:grid;gap:2px;min-width:0}
+.nownext > div + div{border-left:1px solid var(--line)}
+.nownext .big{font-family:var(--f-display);font-weight:700;font-size:28px;text-transform:uppercase;line-height:1.05}
+.nownext .now{background:var(--accent);color:var(--accent-ink)}
+.nownext .now .label{color:inherit;opacity:.8}
+@media (max-width:560px){.nownext{grid-template-columns:minmax(0,1fr)}.nownext > div + div{border-left:0;border-top:1px solid var(--line)}}
+.focus{font-size:14px;color:var(--ink-2)}
+.focus b{color:var(--ink)}
+
+.whyline{margin-top:10px;font-size:14px;color:var(--ink);border-left:3px solid var(--accent);padding-left:10px;max-width:62ch}
+.linkbtn{appearance:none;border:0;background:none;padding:0;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.streaks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.streaks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.streak{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.streak .v{font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.streak .v small{font-size:15px;font-weight:600;color:var(--ink-3);margin-left:4px}
+.streak.hot{border-color:var(--good)}
+.dots{display:flex;gap:5px;margin-top:6px}
+.dot{width:13px;height:13px;border-radius:50%;background:var(--line);flex:none}
+.dot.on{background:var(--good)}.dot.min{background:var(--warn)}.dot.fut{background:transparent;border:1.5px dashed var(--line)}
+.dot.tdy{outline:2px solid var(--accent);outline-offset:1.5px}
+.medals{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.medal{border:1.5px dashed var(--line);border-radius:12px;padding:12px;display:grid;gap:4px;color:var(--ink-3)}
+.medal .mt{font-family:var(--f-display);font-weight:700;font-size:18px;text-transform:uppercase;line-height:1.1}
+.medal.got{border-style:solid;border-color:transparent;background:var(--accent-soft);color:var(--ink)}
+.medal.got .mt{color:var(--accent)}
+.medal svg{width:30px;height:30px}
+.chain{border-collapse:separate;border-spacing:3px;width:auto}
+.chain td,.chain th{border:0;padding:0}
+.chain th{font-size:11px;padding-right:8px;text-align:right;white-space:nowrap}
+.chain td i{display:block;width:18px;height:18px;border-radius:4px;background:var(--line)}
+.chain td i.on{background:var(--good)}.chain td i.fut{background:transparent;border:1px dashed var(--line)}
+.chain thead th{font-family:var(--f-mono);font-size:10px;text-align:center;padding:0 0 4px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:12px;font-size:14.5px;font-weight:500;max-width:min(92vw,520px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.toast b{font-family:var(--f-display);font-size:17px;letter-spacing:.04em;text-transform:uppercase;display:block}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:55;width:100%;height:100%}
+.ringwrap{display:flex;gap:14px;align-items:center}
+.ring{width:64px;height:64px;flex:none}
+@media (max-width:860px){.todaygrid > .stack:last-child{order:-1}}
+.banner{border-radius:10px;padding:10px 14px;font-size:13.5px;background:var(--warn-soft);color:var(--warn)}
+
+/* today head */
+.dayhead{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.dayhead h2{font-size:40px}
+.daynav{display:flex;gap:6px;align-items:center}
+.iconbtn{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:8px;height:34px;min-width:34px;padding:0 10px;cursor:pointer;font-weight:600}
+.iconbtn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;display:grid}
+.tl li{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:7px 0;border-top:1px solid var(--line);align-items:center;position:relative}
+.tl li:first-child{border-top:0}
+.tl .tm{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tl .blk{display:flex;align-items:center;gap:10px;min-width:0}
+.tl .sw{width:10px;height:22px;border-radius:3px;flex:none;border:1px solid}
+.legend i.sw,.tl .sw{background:var(--sw)!important}
+.tl .nm{font-weight:500;min-width:0}
+.tl li.now{background:var(--accent-soft);border-radius:8px;border-top-color:transparent;padding-inline:8px;margin-inline:-8px}
+.tl li.now .tm{color:var(--accent);font-weight:600}
+.tl li.past .nm,.tl li.past .tm{color:var(--ink-3)}
+.tl li.big .nm{font-weight:700}
+
+/* check-in */
+.checks{display:grid;gap:8px}
+.chk{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;user-select:none;background:var(--card)}
+.chk input{width:20px;height:20px;accent-color:var(--accent);flex:none;margin:0}
+.chk.on{background:var(--good-soft);border-color:transparent}
+.chk .why{margin-left:auto;font-size:12px;color:var(--ink-3);text-align:right}
+.fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.field{display:grid;gap:4px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
+.field textarea{min-height:60px;resize:vertical}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex-wrap:wrap}
+.seg button{appearance:none;border:0;background:var(--card);padding:7px 12px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink-2)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg.full{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:560px){.seg.full{grid-template-columns:repeat(2,minmax(0,1fr))}.seg.full button:nth-child(3){border-left:0}.seg.full button:nth-child(n+3){border-top:1px solid var(--line)}}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.score{display:flex;align-items:baseline;gap:8px}
+.score .n{font-family:var(--f-display);font-weight:700;font-size:40px;line-height:1}
+.save{font-size:12px;color:var(--ink-3);min-height:18px}
+
+/* tables */
+.tbl{overflow-x:auto;min-width:0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.cur td{background:var(--accent-soft)}
+tr.tot td{font-weight:700;border-bottom:0}
+
+/* session card */
+.sess{border-left:4px solid var(--accent);padding-left:14px;display:grid;gap:8px}
+.sess.s-gym{border-color:var(--gym-br)}.sess.s-soc{border-color:var(--soc-br)}.sess.s-run{border-color:var(--run-br)}.sess.s-rest{border-color:var(--line)}
+.sess .ttl{font-family:var(--f-display);font-weight:700;font-size:26px;text-transform:uppercase;line-height:1.05}
+
+/* macros */
+.macros{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.macro{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.macro .v{font-family:var(--f-display);font-weight:700;font-size:28px;line-height:1.05;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.macros{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* week grid */
+.wk{min-width:900px;display:grid;grid-template-columns:52px repeat(7,minmax(0,1fr));column-gap:6px}
+.wk .dh{text-align:center;font-family:var(--f-display);font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.06em;padding-bottom:8px}
+.wk .dh small{display:block;font-family:var(--f-body);font-weight:500;font-size:11px;letter-spacing:0;text-transform:none;color:var(--ink-3)}
+.wk .dh.today{color:var(--accent)}
+.wkg{grid-column:1/-1;display:grid;grid-template-columns:52px repeat(7,minmax(0,1fr));grid-template-rows:repeat(60,15px);column-gap:6px}
+.wkg .tl2{grid-column:1;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);text-align:right;padding-right:6px;transform:translateY(-7px)}
+.wkg .hl{grid-column:2/-1;border-top:1px solid var(--line)}
+.ev{border:1px solid;border-radius:6px;padding:2px 6px;font-size:11px;line-height:1.2;overflow:hidden;z-index:1;min-width:0}
+.ev b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev span{opacity:.85;font-size:10.5px}
+.ev.thin{padding:0 6px;line-height:13px;font-size:10px;white-space:nowrap;text-overflow:ellipsis}
+.c-class{background:var(--class-bg);border-color:var(--class-br);color:var(--class-tx)}
+.c-meet{background:var(--meet-bg);border-color:var(--meet-br);color:var(--meet-tx)}
+.c-pros{background:var(--pros-bg);border-color:var(--pros-br);color:var(--pros-tx)}
+.c-gym{background:var(--gym-bg);border-color:var(--gym-br);color:var(--gym-tx)}
+.c-soc{background:var(--soc-bg);border-color:var(--soc-br);color:var(--soc-tx)}
+.c-run{background:var(--run-bg);border-color:var(--run-br);color:var(--run-tx)}
+.c-stud{background:var(--stud-bg);border-color:var(--stud-br);color:var(--stud-tx)}
+.c-walk{background:var(--walk-bg);border-color:var(--walk-br);color:var(--walk-tx)}
+.c-meal{background:var(--meal-bg);border-color:var(--meal-br);color:var(--meal-tx)}
+.c-rout{background:var(--rout-bg);border-color:var(--rout-br);color:var(--rout-tx)}
+.c-plan{background:var(--plan-bg);border-color:var(--plan-br);color:var(--plan-tx)}
+.c-trans{background:var(--trans-bg);border-color:var(--trans-br);color:var(--trans-tx)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid;margin-right:5px;vertical-align:-1px}
+.totals{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.totals{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card)}
+.tile .v{font-family:var(--f-display);font-weight:700;font-size:26px;font-variant-numeric:tabular-nums;line-height:1.1}
+
+ul.clean,ol.clean{margin:0;padding-left:20px;display:grid;gap:6px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.grocery label{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.grocery input{margin-top:3px;accent-color:var(--accent)}
+.grocery label.got span{text-decoration:line-through;color:var(--ink-3)}
+.light3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.light3{grid-template-columns:minmax(0,1fr)}}
+.light3 > div{border-radius:10px;padding:12px 14px}
+.sleepbig{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end}
+.sleepbig .v{font-family:var(--f-display);font-weight:700;font-size:56px;line-height:1;font-variant-numeric:tabular-nums}
+svg text{fill:var(--ink-3);font-family:var(--f-mono);font-size:10px}
+.empty{border:1px dashed var(--line);border-radius:10px;padding:18px;color:var(--ink-2);font-size:14px}
+@media (prefers-reduced-motion:no-preference){.tab,.chk,.iconbtn{transition:background .15s,color .15s,border-color .15s}}
+</style>
+
+<header class="top gut">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Cody's <span>Playbook</span></h1>
+      <p>Sleep first, then training, then school, then work. One page for the day, the week and the road to Dec 31.</p>
+      <div class="whyline" id="whyLine"></div>
+    </div>
+    <div class="bib" aria-label="Race countdown">
+      <div class="ev">10K · Thu 31 Dec 2026</div>
+      <div class="big" id="bibDays">–</div>
+      <div class="sub" id="bibSub">days to go · goal 55:00</div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs gut" aria-label="Sections">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" id="t-today" data-tab="today">Today</button>
+    <button class="tab" role="tab" id="t-week" data-tab="week">Week</button>
+    <button class="tab" role="tab" id="t-train" data-tab="train">Training</button>
+    <button class="tab" role="tab" id="t-food" data-tab="food">Food</button>
+    <button class="tab" role="tab" id="t-sleep" data-tab="sleep">Sleep</button>
+    <button class="tab" role="tab" id="t-progress" data-tab="progress">Progress</button>
+    <button class="tab" role="tab" id="t-rules" data-tab="rules">Rules</button>
+  </div>
+</nav>
+
+<main class="gut"><div class="wrap">
+
+<!-- TODAY -->
+<section role="tabpanel" id="p-today" aria-labelledby="t-today">
+  <div class="dayhead">
+    <div>
+      <div class="label" id="todayKicker">Plan week</div>
+      <h2 id="todayTitle">Today</h2>
+      <p class="muted" id="todaySub"></p>
+    </div>
+    <div class="daynav">
+      <button class="iconbtn" id="prevDay" aria-label="Previous day">‹</button>
+      <button class="iconbtn" id="goToday">Today</button>
+      <button class="iconbtn" id="nextDay" aria-label="Next day">›</button>
+    </div>
+  </div>
+  <div id="storeBanner" class="banner" hidden></div>
+  <div class="nownext" id="nowNext" hidden></div>
+  <div class="focus" id="focus"></div>
+  <div class="streaks" id="streaks"></div>
+  <div class="grid2 todaygrid">
+    <div class="stack">
+      <div class="card">
+        <h3>Main session</h3>
+        <div id="session"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <h3>Day timeline</h3>
+          <span class="pill" id="lightsPill"></span>
+        </div>
+        <ul class="tl" id="timeline"></ul>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <h3>Food today</h3>
+          <span class="pill acc" id="foodType"></span>
+        </div>
+        <div class="tbl" style="margin-top:10px"><table id="todayMeals"></table></div>
+      </div>
+      <div class="card">
+        <h3>Bad day? Do the minimum</h3>
+        <ol class="clean small">
+          <li>Up at 10:00. Lights out by 1:15 at the latest.</li>
+          <li>Three meals with protein, prepped boxes or the dining hall.</li>
+          <li>20 minutes: the first 2 lifts (3 sets), a 20-min easy run, or a 20-min walk.</li>
+          <li>One important study task.</li>
+        </ol>
+        <p class="small muted" style="margin-top:8px">That still counts. Mark the session as "Minimum version".</p>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+          <div><h3>Check-in</h3><p class="small muted">Tick what you hit. Six for six is the goal; five is a good day.</p></div>
+          <div class="score"><span class="n num" id="scoreN">0/6</span></div>
+        </div>
+        <div class="checks" id="checks" style="margin-top:12px"></div>
+        <div class="fields" style="margin-top:14px">
+          <label class="field"><span class="label">Weight (lb)</span><input id="fWeight" type="number" inputmode="decimal" step="0.1" min="100" max="300" placeholder="e.g. 189.4"></label>
+          <label class="field"><span class="label">Recovery %</span><input id="fRec" type="number" inputmode="numeric" min="0" max="100" placeholder="e.g. 64"></label>
+          <label class="field"><span class="label">Sleep (h)</span><input id="fSleep" type="number" inputmode="decimal" step="0.1" min="0" max="14" placeholder="e.g. 8.1"></label>
+          <label class="field"><span class="label">Run (km)</span><input id="fKm" type="number" inputmode="decimal" step="0.1" min="0" max="50" placeholder="0"></label>
+        </div>
+        <div style="margin-top:12px;display:grid;gap:6px">
+          <span class="label">Main session</span>
+          <div class="seg full" id="segTrain" role="group" aria-label="Main session status">
+            <button data-v="done" aria-pressed="false">Done</button>
+            <button data-v="min" aria-pressed="false">Minimum version</button>
+            <button data-v="missed" aria-pressed="false">Missed</button>
+            <button data-v="rest" aria-pressed="false">Rest day</button>
+          </div>
+        </div>
+        <label class="field" style="margin-top:12px"><span class="label">Note</span><textarea id="fNote" placeholder="How did it feel? Anything to change?"></textarea></label>
+        <div class="save" id="saveState" aria-live="polite"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3>Tonight's launch pad</h3><span class="pill" id="lpCount">0/5</span></div>
+        <p class="small muted" style="margin-top:4px">Set up tomorrow before bed, so the morning needs zero decisions.</p>
+        <div class="checks" id="launchpad" style="margin-top:10px"></div>
+      </div>
+      <div class="card" id="recoveryCard">
+        <h3>What today's recovery means</h3>
+        <div id="recAdvice" class="small"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEEK -->
+<section role="tabpanel" id="p-week" aria-labelledby="t-week" hidden>
+  <div><div class="label">Fall 2026 · same every week</div><h2>The week</h2></div>
+  <div class="totals" id="weekTotals"></div>
+  <div class="card"><div class="tbl"><div class="wk" id="weekGrid"></div></div>
+    <div class="legend" id="legend" style="margin-top:14px"></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Hard / easy rhythm</h3><p class="small muted">Soccer Mon and Fri is the hardest load (WHOOP strain 15–16). Legs sit on Tuesday so they're fresh again by Friday. Push and pull don't touch your legs. Wednesday and Sunday runs replace the old full rest days.</p></div>
+    <div class="card"><h3>Prosper Georgetown · 5h</h3><p class="small muted">Mon 2–3 with Dr. Swain, Wed 1:30–3:30 for outreach while businesses are open, Fri 11–1 for deep work with no class.</p></div>
+    <div class="card"><h3>Study · 4h</h3><p class="small muted">One hour right next to each class (Mon Capstone, Tue ECO31, Thu BUS30-304) plus a Sunday flex hour for whatever is due.</p></div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section role="tabpanel" id="p-train" aria-labelledby="t-train" hidden>
+  <div><div class="label">Lift Tue · Thu · Sat — Run Wed · Sun</div><h2>Training</h2></div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3>10K build · 9 → 21 km a week, then taper</h3><span class="pill acc" id="runWeekPill"></span></div>
+    <div class="tbl" style="margin-top:10px"><table id="runTable"></table></div>
+    <p class="small muted" style="margin-top:10px">Distances in weeks 1–3 assume an easy pace of about 6:45–7:15/km. Stop at whichever comes first, time or distance. After the week 3 test: 3 km pace of 5:15/km or faster means you're on track; slower than 5:30 means threshold and race-pace work move to 5:45–5:50/km.</p>
+  </div>
+  <div class="card"><h3>How hard is "easy"?</h3>
+    <div class="tbl"><table>
+      <tr><th>Zone</th><th>Feels like</th><th>Talk test</th><th>Pace</th></tr>
+      <tr><td>Easy</td><td>RPE 3–4, relaxed</td><td>Full sentences</td><td>No target. Slow down if you can't talk.</td></tr>
+      <tr><td>Threshold</td><td>RPE 7, comfortably hard</td><td>3–4 words</td><td class="num">≈ 5:30–5:40 /km</td></tr>
+      <tr><td>Race pace</td><td>RPE 7–8</td><td>A few words</td><td class="num">5:30 /km</td></tr>
+      <tr><td>Intervals</td><td>RPE 8, hard but controlled</td><td>1–2 words</td><td class="num">≈ 5:05–5:15 /km</td></tr>
+      <tr><td>Strides</td><td>Fast and smooth, not a sprint</td><td>—</td><td>20 s, walk back</td></tr>
+    </table></div>
+  </div>
+  <div class="grid3" id="liftCards"></div>
+  <div class="grid2">
+    <div class="card"><h3>Progression</h3>
+      <ol class="clean small">
+        <li>Start each lift at the bottom of the rep range at the target RIR (reps left in the tank).</li>
+        <li>Add reps each week until every set hits the top of the range.</li>
+        <li>Then add weight: +2.5–5 lb upper body, +5–10 lb deadlift/squat if the bar still moved fast.</li>
+        <li>Same weight and reps three sessions in a row? Drop 10% and build back up.</li>
+      </ol>
+    </div>
+    <div class="card"><h3>Phases</h3>
+      <div class="tbl"><table>
+        <tr><th>Weeks</th><th>Focus</th></tr>
+        <tr><td class="num">1–2</td><td>Re-entry: stop every set at 3 RIR</td></tr>
+        <tr><td class="num">3–5</td><td>Normal progression</td></tr>
+        <tr><td class="num">6</td><td>Thanksgiving deload: same weights, half the sets</td></tr>
+        <tr><td class="num">7–9</td><td>Progress upper body; hold legs steady</td></tr>
+        <tr><td class="num">10</td><td>Light legs, normal upper</td></tr>
+        <tr><td class="num">11</td><td>Race week: one light upper session (Tue Dec 29), no legs</td></tr>
+      </table></div>
+    </div>
+  </div>
+  <div class="card"><h3>Race day · Dec 31</h3>
+    <div class="grid3" style="margin-top:6px">
+      <div><div class="label">Breakfast, 2.5–3h before</div><p class="small">80 g oats, 1 banana, 20 g honey, 1 egg. 250–500 ml water 2h before, then sips.</p></div>
+      <div><div class="label">Warm-up</div><p class="small">10 min easy jog plus 4 strides.</p></div>
+      <div><div class="label">Pacing</div><p class="small">km 1–2 at 5:35–5:40. km 3–8 at 5:30. Push km 9–10 if you feel good.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOD -->
+<section role="tabpanel" id="p-food" aria-labelledby="t-food" hidden>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap">
+    <div><div class="label">Moderate deficit · ~0.7–1.0 lb a week</div><h2>Food</h2></div>
+    <div class="seg" id="segFood" role="group" aria-label="Day type">
+      <button data-v="standard" aria-pressed="true">Standard · Tue–Thu, Sat, Sun</button>
+      <button data-v="high" aria-pressed="false">High · soccer days</button>
+      <button data-v="recovery" aria-pressed="false">Recovery</button>
+    </div>
+  </div>
+  <div class="macros" id="macroTiles"></div>
+  <div class="card"><div class="tbl"><table id="mealTable"></table></div>
+    <p class="small muted" style="margin-top:10px">Raw weights unless it says cooked. USDA averages, so brands can be 5–10% off. Your old plan's macros (196 P / 171 C / 53 F) add up to 1,945 kcal, not 1,991, and it was about 1,000 kcal under what this much training needs.</p>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Easy swaps</h3>
+      <div class="tbl"><table>
+        <tr><th>Swap</th><th>Change</th></tr>
+        <tr><td>180 g beef → 150 g salmon (Wed + Sun)</td><td class="num">+38 kcal, more omega-3</td></tr>
+        <tr><td>180 g chicken → 180 g 93/7 beef</td><td class="num">+58 kcal</td></tr>
+        <tr><td>150 g cooked rice → 200 g potato</td><td>About equal</td></tr>
+        <tr><td>Banana → 150 g grapes</td><td>About equal</td></tr>
+        <tr><td>Yogurt + honey → 1 scoop whey + banana</td><td>About equal, easier on the go</td></tr>
+      </table></div>
+    </div>
+    <div class="card"><h3>Fuel and water</h3>
+      <ul class="clean small">
+        <li><b>Before lifting:</b> the snack 60–90 min before (Tue/Thu 2:15, Sat 1:30).</li>
+        <li><b>Before soccer:</b> the bigger snack at 4:00, about 2h before kickoff.</li>
+        <li><b>During soccer:</b> 500–750 ml water with electrolytes (a pinch of salt works).</li>
+        <li><b>After lifting or running:</b> the yogurt bowl right after your shower: 200 g Greek yogurt + 30 g whey stirred in, 120 g mixed berries, 15 g dark chocolate (≈390 kcal, 47 g protein).</li>
+        <li><b>After soccer:</b> dinner within an hour, then the yogurt bowl at 10pm.</li>
+        <li><b>Water:</b> about 3 L a day, plus 500–750 ml per hour of training. Pale yellow by early afternoon.</li>
+        <li><b>Caffeine:</b> none after 3:30pm.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card grocery"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h3>Saturday grocery list</h3><button class="iconbtn" id="clearGrocery">Clear ticks</button></div>
+      <p class="small muted" style="margin-top:6px">For 5 standard + 2 high days. Ticks stay on this device.</p>
+      <div id="grocery" style="margin-top:8px"></div>
+    </div>
+    <div class="card"><h3>Sunday meal prep · 1:30–3:00</h3>
+      <ol class="clean small">
+        <li><b>1:30</b> Start 2 cups dry rice (about 1,250 g cooked).</li>
+        <li><b>1:35</b> Oven to 425°F. Cube 7 sweet potatoes, salt and paprika, roast 35–40 min.</li>
+        <li><b>1:40</b> Season chicken (salt, pepper, garlic powder, cumin), bake 20–22 min to 165°F inside.</li>
+        <li><b>1:45</b> Brown 2 lb beef with the frozen peppers and onions, 12–15 min. Salt, cumin, chili powder.</li>
+        <li><b>2:10</b> Steam the broccoli. Rinse and drain the beans.</li>
+        <li><b>2:20</b> Box 4 lunches (chicken, rice, beans, broccoli) and 4 dinners (beef, veg, sweet potato).</li>
+        <li><b>2:45</b> Portion yogurt + honey cups for pre-training snacks. Clean up. (Make the yogurt bowl fresh, it takes a minute.)</li>
+        <li><b>Wednesday after dinner (30 min)</b> Second batch of chicken and beef, bake 2 salmon portions, box Thu–Sat.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- SLEEP -->
+<section role="tabpanel" id="p-sleep" aria-labelledby="t-sleep" hidden>
+  <div><div class="label">Priority #1 · same times all 7 days</div><h2>Sleep</h2></div>
+  <div class="card">
+    <div class="sleepbig">
+      <div><div class="label">Lights out</div><div class="v">12:45<span style="font-size:24px">am</span></div></div>
+      <div><div class="label">Wake</div><div class="v">10:00<span style="font-size:24px">am</span></div></div>
+      <div><div class="label">In bed</div><div class="v">9h15</div></div>
+      <div><div class="label">Tonight's target</div><div class="v" id="tonight">–</div></div>
+    </div>
+    <p class="small muted" style="margin-top:12px">At your 88% sleep efficiency, 9h15 in bed is about 8.1 hours asleep. You've been getting 7.1 against a WHOOP need of 9.5.</p>
+  </div>
+  <div class="card"><h3>Getting there · the wake time never moves</h3>
+    <div class="tbl"><table id="rampTable"></table></div>
+    <p class="small muted" style="margin-top:8px">Clocks fall back on Sun, Nov 1. Keep the same clock times. 10:00 will feel like 11:00 for a few days, which helps.</p>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Morning · 10:00–10:15</h3>
+      <ol class="clean small">
+        <li>Alarm across the room. Up the first time.</li>
+        <li>500 ml of water from the nightstand bottle.</li>
+        <li>10 minutes of outdoor light.</li>
+        <li>Make the bed, check today's 3 priorities.</li>
+        <li>Breakfast at 10:15.</li>
+      </ol>
+    </div>
+    <div class="card"><h3>Wind-down · 11:45–12:45</h3>
+      <ol class="clean small">
+        <li><b>11:45</b> Dim the lights, phone on Do Not Disturb and grayscale.</li>
+        <li><b>11:50</b> Warm shower.</li>
+        <li><b>12:05</b> Launch pad: tomorrow's clothes, gym bag, lunch box, water bottle.</li>
+        <li><b>12:15</b> 10 minutes of stretching or reading. Phone charges out of reach.</li>
+        <li><b>12:30</b> In bed. <b>12:45</b> lights out.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="card"><h3>What your WHOOP data says</h3>
+    <div class="tbl"><table>
+      <tr><th>Fell asleep</th><th class="r">Nights</th><th class="r">Avg recovery</th><th class="r">Avg sleep</th><th class="r">HRV</th></tr>
+      <tr><td>Before midnight</td><td class="r">11</td><td class="r"><b>69%</b></td><td class="r">8.0 h</td><td class="r">119 ms</td></tr>
+      <tr><td>12–1am</td><td class="r">34</td><td class="r">65%</td><td class="r">7.6 h</td><td class="r">112 ms</td></tr>
+      <tr><td>1–2am</td><td class="r">33</td><td class="r">67%</td><td class="r">6.7 h</td><td class="r">114 ms</td></tr>
+      <tr><td>2am or later</td><td class="r">37</td><td class="r"><b>57%</b></td><td class="r">6.9 h</td><td class="r">105 ms</td></tr>
+    </table></div>
+    <p class="small muted" style="margin-top:8px">Nights under 6 hours averaged 50% recovery. Over 8 hours averaged 68%. Data: Jun 23 – Oct 18, 2026, 116 nights.</p>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section role="tabpanel" id="p-progress" aria-labelledby="t-progress" hidden>
+  <div><div class="label">Fills in from your daily check-ins</div><h2>Progress</h2></div>
+  <div class="totals" id="progTiles"></div>
+  <div class="card"><h3>Weight · daily and 7-day average</h3><div id="weightChart" style="margin-top:10px"></div></div>
+  <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3>Medals</h3><span class="pill acc" id="medalCount"></span></div>
+    <p class="small muted" style="margin-top:4px">Earned by showing up, not by being perfect. The minimum version counts.</p>
+    <div class="medals" id="medals" style="margin-top:12px"></div></div>
+  <div class="card"><h3>Habit chain · last 14 days</h3><p class="small muted" style="margin-top:4px">Don't break the chain twice in a row. One gap is life. Two is a new habit forming.</p><div class="tbl" style="margin-top:10px"><table class="chain" id="chain"></table></div></div>
+  <div class="card"><h3>Weekly scorecard</h3><div class="tbl" style="margin-top:8px"><table id="weekScore"></table></div>
+    <p class="small muted" style="margin-top:8px">Habit score = ticks ÷ 42. Goal is 80% or better. Do the Sunday review at 3:00 with this table open.</p>
+  </div>
+  <div class="card"><h3>What to change</h3><div id="adjust" class="small" style="display:grid;gap:8px"></div></div>
+</section>
+
+<!-- RULES -->
+<section role="tabpanel" id="p-rules" aria-labelledby="t-rules" hidden>
+  <div><div class="label">How to stay consistent without burning out</div><h2>Rules</h2></div>
+  <div class="card"><h3>Your why</h3>
+    <p class="small muted" style="margin-top:4px">People stick with habits that match who they want to be. Write it once; it shows at the top of every page.</p>
+    <div class="grid2" style="margin-top:12px">
+      <label class="field"><span class="label">I'm the kind of person who…</span><input id="fIdentity" type="text" maxlength="120" placeholder="…shows up, sleeps right and finishes what he starts."></label>
+      <label class="field"><span class="label">Why this matters to me</span><input id="fWhy" type="text" maxlength="160" placeholder="e.g. Run 55:00 on Dec 31 and feel sharp for class and soccer."></label>
+    </div>
+    <div class="save" id="whySave" aria-live="polite"></div>
+  </div>
+  <div class="card"><h3>Never skip, can move, can skip</h3>
+    <div class="tbl"><table>
+      <tr><th>Never skip</th><th>Can move</th><th>Can skip if needed</th></tr>
+      <tr><td>10:00 wake, every day</td><td>Lift days (but never legs within 72h of Friday soccer)</td><td>Zone 1 walks</td></tr>
+      <tr><td>Lights out 12:45 (30 min late at most)</td><td>Study blocks, same day</td><td>Optional Saturday run</td></tr>
+      <tr><td>Protein at every meal</td><td>Prosper blocks, same week</td><td>Strides</td></tr>
+      <tr><td>Soccer Mon/Fri</td><td>Meal times (±1h)</td><td>The chocolate in the evening snack</td></tr>
+      <tr><td>3 lifts a week (full or minimum)</td><td>Wed run to Thu (easy only)</td><td>Sunday flex study hour</td></tr>
+      <tr><td>Wed + Sun runs from week 3</td><td></td><td></td></tr>
+    </table></div>
+  </div>
+  <div class="card"><h3>Let WHOOP set the effort</h3>
+    <div class="light3">
+      <div style="background:var(--good-soft);color:var(--good)"><b>Green · 67%+</b><p class="small">Do the plan as written.</p></div>
+      <div style="background:var(--warn-soft);color:var(--warn)"><b>Yellow · 34–66%</b><p class="small">Do it, but stop at 2 reps in reserve or RPE 7. Under 50%: the quality run becomes an easy run.</p></div>
+      <div style="background:var(--bad-soft);color:var(--bad)"><b>Red · under 34%</b><p class="small">Swap the session for a 30-min walk and mobility. Same wake time, lights out no later than 12:45.</p></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Missed a workout?</h3>
+      <ul class="clean small">
+        <li><b>Never miss twice.</b> The next session happens, even as the minimum version.</li>
+        <li><b>No doubling up</b> to catch up.</li>
+        <li><b>Missed legs:</b> do it Wednesday before an easy run, or skip it. Never within 72h of Friday soccer.</li>
+        <li><b>Missed push or pull:</b> next free day (Wed or Sun), or skip.</li>
+        <li><b>Missed Wednesday run:</b> Thursday, easy only. <b>Missed Sunday long run:</b> skip it, never Monday before soccer.</li>
+      </ul>
+    </div>
+    <div class="card"><h3>Heavy week? Drop in this order</h3>
+      <ol class="clean small">
+        <li>Walks</li><li>Saturday optional run</li><li>Push</li><li>Pull</li><li>Legs</li><li>Wednesday run</li><li>Sunday long run</li><li>Soccer (last)</li>
+      </ol>
+      <p class="small muted" style="margin-top:8px">Sleep times never go on this list. Add study hours into free blocks, not into sleep.</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Habit stacks</h3>
+      <ul class="clean small">
+        <li>Alarm → water → outside light → breakfast</li>
+        <li>Last class ends → walk straight to the gym (going home first is where workouts die)</li>
+        <li>Dinner done → 20–30 min walk</li>
+        <li>Warm shower → launch pad for tomorrow</li>
+        <li>Church → lunch → meal prep → weekly review</li>
+      </ul>
+    </div>
+    <div class="card"><h3>Adopt it one layer at a time</h3>
+      <div class="tbl"><table>
+        <tr><th>Weeks</th><th>Add only this</th><th>Got it when</th></tr>
+        <tr><td class="num">1</td><td>10:00 wake + the lights-out ramp</td><td>6 of 7 days on time</td></tr>
+        <tr><td class="num">2</td><td>Sunday meal prep + nightly launch pad</td><td>5 of 7 days from prepped boxes</td></tr>
+        <tr><td class="num">3</td><td>Full wind-down + Wed/Sun runs</td><td>Lights out by 1:15, 6 of 7 nights</td></tr>
+        <tr><td class="num">4+</td><td>Weekly review + everything</td><td>Habit score 80%+</td></tr>
+      </table></div>
+    </div>
+  </div>
+  <div class="card"><h3>Your WHOOP findings · Jun 23 – Oct 18</h3>
+    <div class="tbl"><table>
+      <tr><th>Finding</th><th>Number</th><th>What the plan does</th></tr>
+      <tr><td>Sleep vs need</td><td class="num">7.1 h vs 9.5 h</td><td>9h15 in bed, every night</td></tr>
+      <tr><td>Bedtime swing (last 30 days)</td><td class="num">±1h38m</td><td>One fixed lights-out, ramped in over 2 weeks</td></tr>
+      <tr><td>Recovery after soccer nights</td><td class="num">50% vs 63% avg</td><td>Fast dinner, normal bedtime, only moderate legs the next day</td></tr>
+      <tr><td>Lifts ending 3–6pm vs after 7:30pm</td><td class="num">73% vs 62%</td><td>All lifts finish between 3 and 6pm</td></tr>
+      <tr><td>HRV, last 30 days</td><td class="num">103 ms (111 avg)</td><td>Watch it climb as sleep improves</td></tr>
+      <tr><td>Resting HR, last 30 days</td><td class="num">50.3 bpm (48.9 avg)</td><td>Same</td></tr>
+      <tr><td>Last run logged</td><td class="num">Aug 12</td><td>10K build starts at 2 easy runs, ~9 km</td></tr>
+    </table></div>
+  </div>
+</section>
+
+</div></main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script>
+const DATA = {"schedule": {"0": [["rout", "Wake + routine", 600, 615], ["meal", "Breakfast", 615, 645], ["class", "BUS30-964 Capstone", 660, 735], ["meal", "Lunch", 735, 765], ["stud", "Study: Capstone", 765, 825], ["pros", "Dr. Swain / Prosper", 840, 900], ["meet", "Piano", 900, 960], ["meal", "Pre-soccer snack", 960, 975], ["trans", "Travel + warm-up", 1050, 1080], ["soc", "Soccer", 1080, 1200], ["trans", "Travel + shower", 1200, 1230], ["meal", "Dinner (high-carb)", 1230, 1275], ["meal", "Yogurt bowl", 1320, 1335], ["rout", "Wind-down", 1425, 1485]], "1": [["rout", "Wake + routine", 600, 615], ["meal", "Breakfast", 615, 645], ["stud", "Study: ECO31-314", 660, 720], ["meal", "Lunch", 735, 765], ["class", "ECO31-314", 780, 855], ["meal", "Pre-gym snack", 855, 870], ["class", "BUS30-304", 870, 945], ["trans", "Walk to gym", 945, 960], ["gym", "Gym: Legs", 960, 1020], ["trans", "Shower", 1020, 1050], ["meal", "Yogurt bowl", 1050, 1065], ["meal", "Dinner", 1095, 1140], ["walk", "Zone 1 walk", 1140, 1170], ["rout", "Wind-down", 1425, 1485]], "2": [["rout", "Wake + routine", 600, 615], ["meal", "Breakfast", 615, 645], ["class", "BUS30-964 Capstone", 660, 735], ["meal", "Lunch", 735, 765], ["walk", "Zone 1 walk", 765, 795], ["pros", "Prosper Georgetown", 810, 930], ["meal", "Pre-run snack", 930, 945], ["run", "Run (see plan)", 990, 1050], ["trans", "Shower", 1050, 1080], ["meal", "Yogurt bowl", 1080, 1095], ["meal", "Dinner", 1110, 1155], ["rout", "Wind-down", 1425, 1485]], "3": [["rout", "Wake + routine", 600, 615], ["meal", "Breakfast", 615, 645], ["stud", "Study: BUS30-304", 660, 720], ["meal", "Lunch", 735, 765], ["class", "ECO31-314", 780, 855], ["meal", "Pre-gym snack", 855, 870], ["class", "BUS30-304", 870, 945], ["trans", "Walk to gym", 945, 960], ["gym", "Gym: Push", 960, 1020], ["trans", "Shower", 1020, 1050], ["meal", "Yogurt bowl", 1050, 1065], ["meal", "Dinner", 1095, 1140], ["walk", "Zone 1 walk", 1140, 1170], ["rout", "Wind-down", 1425, 1485]], "4": [["rout", "Wake + routine", 600, 615], ["meal", "Breakfast", 615, 645], ["pros", "Prosper Georgetown", 660, 780], ["meal", "Lunch", 780, 810], ["walk", "Zone 1 walk", 810, 855], ["meal", "Pre-soccer snack", 960, 975], ["trans", "Travel + warm-up", 1050, 1080], ["soc", "Soccer", 1080, 1200], ["trans", "Travel + shower", 1200, 1230], ["meal", "Dinner (high-carb)", 1230, 1275], ["meal", "Yogurt bowl", 1320, 1335], ["rout", "Wind-down", 1425, 1485]], "5": [["rout", "Wake + routine", 600, 615], ["meal", "Breakfast", 615, 645], ["plan", "Grocery run", 660, 720], ["meal", "Lunch", 780, 810], ["meal", "Pre-gym snack", 810, 825], ["gym", "Gym: Pull", 900, 960], ["run", "Optional easy run", 960, 990], ["trans", "Shower", 990, 1005], ["meal", "Yogurt bowl", 1005, 1020], ["meal", "Dinner", 1110, 1155], ["walk", "Zone 1 walk", 1155, 1185], ["rout", "Wind-down", 1425, 1485]], "6": [["rout", "Wake + routine", 600, 615], ["meal", "Breakfast", 615, 645], ["trans", "Get ready + travel", 660, 690], ["meet", "Church", 690, 750], ["meal", "Lunch", 765, 795], ["plan", "Meal prep", 810, 900], ["plan", "Weekly review", 900, 930], ["meal", "Pre-run snack", 930, 960], ["run", "Long easy run", 960, 1035], ["trans", "Shower", 1035, 1065], ["meal", "Yogurt bowl", 1065, 1080], ["meal", "Dinner", 1110, 1155], ["stud", "Study: flex hour", 1170, 1230], ["rout", "Wind-down", 1425, 1485]]}, "colors": {"class": ["#dbeafe", "#93c5fd", "#1d4ed8", "#0b2a52", "#1e4b8a", "#7fb3ff"], "meet": ["#dcfce7", "#86efac", "#15803d", "#122b12", "#2c5f2c", "#5ddb5d"], "pros": ["#fef9c3", "#fde047", "#a16207", "#2e2a0b", "#6b5e12", "#f5d547"], "gym": ["#ffedd5", "#fdba74", "#c2410c", "#33220b", "#7a4e15", "#ffb45c"], "soc": ["#ede9fe", "#c4b5fd", "#6d28d9", "#24163f", "#4c3080", "#b79bff"], "run": ["#fce7f3", "#f9a8d4", "#be185d", "#3a1029", "#7a2456", "#ff8fc8"], "stud": ["#e2e8f0", "#94a3b8", "#334155", "#20242b", "#454c58", "#b9c2d0"], "walk": ["#ccfbf1", "#5eead4", "#0f766e", "#07302c", "#15665c", "#5fd8c6"], "meal": ["#fef2f2", "#fca5a5", "#b91c1c", "#331314", "#7a2c2e", "#ff9b9b"], "rout": ["#e0f2fe", "#7dd3fc", "#0369a1", "#0a2a38", "#15556f", "#67cdf0"], "plan": ["#e0e7ff", "#a5b4fc", "#4338ca", "#1a1d42", "#363d85", "#a5b0ff"], "trans": ["#f4f4f5", "#d4d4d8", "#52525b", "#1c1c1f", "#3a3a40", "#a1a1aa"]}, "legend": [["class", "Classes"], ["pros", "Prosper Georgetown"], ["meet", "Piano & church"], ["gym", "Lifting"], ["soc", "Soccer"], ["run", "Running"], ["walk", "Zone 1 walks"], ["stud", "Study"], ["meal", "Meals & snacks"], ["plan", "Prep & planning"], ["trans", "Travel & shower"], ["rout", "Sleep routine"]], "meals": {"standard": {"meals": [{"meal": "Breakfast (10:20)", "items": [["whole eggs", 150], ["liquid egg whites", 100], ["spinach", 60], ["avocado", 50], ["rolled oats (dry)", 60], ["kiwi", 75]], "m": [633, 41, 60, 26, 13]}, {"meal": "Lunch (12:15-12:45)", "items": [["chicken breast (raw)", 180], ["white rice (cooked)", 150], ["black beans (canned, drained)", 80], ["broccoli", 150], ["salsa", 40], ["olive oil", 10]], "m": [638, 54, 68, 16, 11]}, {"meal": "Pre-training snack (60-90 min before)", "items": [["banana", 120], ["nonfat Greek yogurt", 150], ["honey", 15]], "m": [241, 17, 45, 1, 3]}, {"meal": "Post-workout yogurt bowl", "items": [["nonfat Greek yogurt", 200], ["whey protein", 30], ["mixed berries (frozen)", 120], ["dark chocolate 70-85%", 15]], "m": [388, 47, 31, 9, 5]}, {"meal": "Dinner (post-training)", "items": [["93/7 ground beef (raw)", 180], ["sweet potato (raw)", 300], ["frozen pepper & onion mix", 150], ["pickles", 40]], "m": [581, 44, 71, 13, 12]}], "total": [2481, 203, 276, 66, 45]}, "high": {"meals": [{"meal": "Breakfast (10:20)", "items": [["whole eggs", 150], ["liquid egg whites", 100], ["spinach", 60], ["avocado", 50], ["rolled oats (dry)", 60], ["kiwi", 75]], "m": [633, 41, 60, 26, 13]}, {"meal": "Lunch (12:15-12:45)", "items": [["chicken breast (raw)", 180], ["white rice (cooked)", 250], ["black beans (canned, drained)", 80], ["broccoli", 150], ["salsa", 40], ["olive oil", 10]], "m": [768, 57, 96, 16, 11]}, {"meal": "Pre-training snack (60-90 min before)", "items": [["banana", 120], ["nonfat Greek yogurt", 150], ["honey", 25], ["granola", 30]], "m": [413, 20, 73, 7, 5]}, {"meal": "Post-workout yogurt bowl", "items": [["nonfat Greek yogurt", 200], ["whey protein", 30], ["mixed berries (frozen)", 120], ["dark chocolate 70-85%", 15]], "m": [388, 47, 31, 9, 5]}, {"meal": "Dinner (post-training)", "items": [["93/7 ground beef (raw)", 180], ["sweet potato (raw)", 300], ["frozen pepper & onion mix", 150], ["pickles", 40]], "m": [581, 44, 71, 13, 12]}], "total": [2783, 209, 331, 72, 47]}, "recovery": {"meals": [{"meal": "Breakfast (10:20)", "items": [["whole eggs", 150], ["liquid egg whites", 100], ["spinach", 60], ["avocado", 50], ["rolled oats (dry)", 60], ["kiwi", 75]], "m": [633, 41, 60, 26, 13]}, {"meal": "Lunch (12:15-12:45)", "items": [["chicken breast (raw)", 180], ["white rice (cooked)", 150], ["black beans (canned, drained)", 80], ["broccoli", 150], ["salsa", 40], ["olive oil", 10]], "m": [638, 54, 68, 16, 11]}, {"meal": "Pre-training snack (60-90 min before)", "items": [["nonfat Greek yogurt", 150], ["mixed berries (frozen)", 100]], "m": [138, 16, 17, 1, 3]}, {"meal": "Post-workout yogurt bowl", "items": [["nonfat Greek yogurt", 200], ["whey protein", 30], ["mixed berries (frozen)", 120], ["dark chocolate 70-85%", 15]], "m": [388, 47, 31, 9, 5]}, {"meal": "Dinner (post-training)", "items": [["93/7 ground beef (raw)", 180], ["sweet potato (raw)", 150], ["frozen pepper & onion mix", 150], ["pickles", 40], ["broccoli", 150]], "m": [503, 46, 51, 14, 12]}], "total": [2301, 204, 228, 66, 44]}}};
+const PLAN_START = new Date(2026, 9, 19); // Mon Oct 19
+const RACE = new Date(2026, 11, 31);
+const DAYMS = 86400000;
+const DOW = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DOWL = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const MEAL_NAMES = ['Breakfast','Lunch','Pre-training snack','Post-workout yogurt bowl','Dinner'];
+const $ = s => document.querySelector(s);
+const el = (t, a = {}, ...kids) => { const e = document.createElement(t); for (const [k, v] of Object.entries(a)) { if (k === 'class') e.className = v; else if (k === 'html') e.innerHTML = v; else if (k === 'text') e.textContent = v; else e.setAttribute(k, v); } for (const c of kids) e.append(c); return e; };
+const pad = n => String(n).padStart(2, '0');
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const fromIso = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const midnight = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+const dow = d => (d.getDay() + 6) % 7; // Mon=0
+const daysBetween = (a, b) => Math.round((midnight(b) - midnight(a)) / DAYMS);
+const planWeek = d => Math.floor(daysBetween(PLAN_START, d) / 7) + 1; // 1..11
+const fmtM = m => { m %= 1440; const h = Math.floor(m / 60), mi = m % 60; return `${(h % 12) || 12}:${pad(mi)}${h < 12 ? 'am' : 'pm'}`; };
+const fmtS = m => { m %= 1440; const h = Math.floor(m / 60), mi = m % 60; return `${(h % 12) || 12}:${pad(mi)}`; };
+const fmtDate = d => d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+
+/* ---------- plan content ---------- */
+const RUNS = [
+  { wed: '4 km easy (~28 min)', sun: '5 km easy', km: 9 },
+  { wed: '4.5 km easy + 4 × 20 s strides', sun: '6 km easy', km: 10.5 },
+  { wed: 'Test: 2 km warm-up, 3 km time trial, 1.5 km cool-down', sun: '6.5 km easy', km: 13 },
+  { wed: '2 km WU · 3 × 1.5 km threshold (2 min jog) · 1.5 km CD', sun: '7 km easy', km: 15, sat: 3 },
+  { wed: '2 km WU · 6 × 800 m intervals (2 min jog) · 1.5 km CD', sun: '8 km easy', km: 16.5, sat: 3 },
+  { wed: 'Deload: 2 km WU · 3 × 1 km threshold · 1.5 km CD', sun: '6 km easy', km: 13 },
+  { wed: '2 km WU · 2 × 2.5 km race pace (3 min jog) · 1.5 km CD', sun: '9 km easy', km: 18, sat: 4 },
+  { wed: '2 km WU · 5 × 1 km intervals (2 min jog) · 1.5 km CD', sun: '10 km, last 2 km at race pace', km: 19.5, sat: 4 },
+  { wed: '2 km WU · 3 × 2 km race pace (2 min jog) · 1.5 km CD', sun: '11 km easy (peak)', km: 21, sat: 4 },
+  { wed: 'Taper: 2 km WU · 2 × 2 km race pace · 1.5 km CD', sun: '7 km easy', km: 14.5 },
+  { wed: 'Wed 30: 3 km shakeout + 4 strides', sun: 'Thu 31: race 10 km', km: 18, special: 'Mon 28: 5 km easy with 3 × 1 min at race pace. Tue 29: rest.' },
+];
+const LIFTS = {
+  Legs: { day: 'Tuesday 4–5pm', note: 'Never to failure. Under 34% recovery: drop one set of the first three.', rows: [
+    ['Trap-bar deadlift (or back squat)', '3 × 5', '2:30', '2–3 RIR'], ['Bulgarian split squat', '3 × 8 / leg', '1:30', '2 RIR'], ['Romanian deadlift', '3 × 8', '2:00', '2 RIR'], ['Nordic curl (or leg curl 3 × 10)', '3 × 4–6', '1:30', 'Controlled'], ['Standing calf raise, 2 s pause', '3 × 12', '1:00', '1–2 RIR'], ['Copenhagen side plank', '2 × 20 s / side', '0:45', '—']] },
+  Push: { day: 'Thursday 4–5pm', note: 'Direct arm work lives here and on pull day. No 4th arm day until recovery averages 70%+ for 3 weeks.', rows: [
+    ['Barbell bench press', '4 × 6–8', '2:30', '1–2 RIR'], ['Incline DB press', '3 × 8–10', '2:00', '1–2 RIR'], ['Seated DB shoulder press', '3 × 8–10', '1:30', '1–2 RIR'], ['Cable lateral raise', '3 × 12–15', '1:00', '0–1 RIR'], ['Rope triceps pushdown', '3 × 10–12', '1:00', '0–1 RIR'], ['Overhead cable triceps ext.', '2 × 12–15', '1:00', '0–1 RIR']] },
+  Pull: { day: 'Saturday 3–4pm', note: 'Add weight to pull-ups once you hit 10 clean reps.', rows: [
+    ['Pull-up or lat pulldown', '4 × 6–10', '2:30', '1–2 RIR'], ['Chest-supported row', '3 × 8–10', '2:00', '1–2 RIR'], ['Seated cable row, neutral grip', '3 × 10–12', '1:30', '1 RIR'], ['Face pull', '3 × 12–15', '1:00', '1 RIR'], ['Incline DB curl', '3 × 10–12', '1:00', '0–1 RIR'], ['Hammer curl', '2 × 12', '1:00', '0–1 RIR']] },
+};
+const HABITS = [
+  ['wake', 'Up at 10:00', '±15 min'], ['lights', 'Lights out on target', 'see Sleep'], ['protein', 'Protein 170 g+', 'every meal'],
+  ['training', 'Main session done', 'full or minimum'], ['water', '2.5 L+ water', ''], ['caffeine', 'No caffeine after 3:30', ''],
+];
+const GROCERY = [
+  ['Eggs', '2 dozen'], ['Liquid egg whites', '1 × 32 oz carton'], ['Chicken breast', '~2.8 lb'], ['93/7 ground beef', '2 lb'], ['Salmon fillets', '~0.7 lb (2 portions)'],
+  ['Nonfat Greek yogurt', '3 × 32 oz tubs'], ['Sweet potatoes', '7 medium'], ['Black beans', '3 × 15 oz cans'],
+  ['Frozen broccoli', '2 × 1 lb bags'], ['Frozen pepper & onion mix', '2–3 × 1 lb bags'], ['Spinach', '1 lb tub'], ['Avocados', '3'], ['Bananas', '7–8'], ['Kiwis', '7'],
+  ['Frozen mixed berries', '2 lb bag'], ['Salsa', '16 oz jar'], ['Pickles', '1 jar'],
+  ['Dark chocolate 70–85%', '1 bar'], ['Pantry check: oats, rice, honey, granola, olive oil, whey (≈210 g a week), electrolytes', 'as needed'],
+];
+const SLEEP_RAMP = [
+  ['2026-10-19', '2026-10-21', 90], ['2026-10-22', '2026-10-25', 75], ['2026-10-26', '2026-11-01', 60], ['2026-11-02', '2026-12-31', 45],
+];
+function lightsOutFor(d) { const s = iso(d); for (const [a, b, m] of SLEEP_RAMP) if (s >= a && s <= b) return m; return s < SLEEP_RAMP[0][0] ? 90 : 45; }
+
+/* what the main session is on a given date */
+function sessionFor(d) {
+  const s = iso(d), w = planWeek(d), wd = dow(d), wk = RUNS[Math.min(Math.max(w, 1), 11) - 1];
+  const before = s < '2026-10-19', after = s > '2026-12-31';
+  if (s === '2026-12-31') return { kind: 'run', title: '10K race day', body: 'Goal 55:00 (5:30/km). Breakfast 2.5–3h before. 10 min jog + 4 strides. km 1–2 at 5:35–5:40, then settle at 5:30, push the last 2 if you feel good.' };
+  if (s === '2026-12-28') return { kind: 'run', title: 'Easy run · 5 km', body: '5 km easy with 3 × 1 min at race pace. Skip soccer today, the race is in 3 days.' };
+  if (s === '2026-12-29') return { kind: 'gym', title: 'Light upper body', body: 'Push + pull, 2 sets per exercise, nothing near failure. No legs this week.' };
+  if (s === '2026-12-30') return { kind: 'run', title: 'Shakeout · 3 km', body: '3 km easy + 4 strides. Lay out your race kit tonight. Normal dinner with an extra side of rice or potatoes.' };
+  if (after) return { kind: 'rest', title: 'Race is done', body: 'The plan ran through Dec 31. Ask Claude to build the spring version.' };
+  if (wd === 0 || wd === 4) return { kind: 'soc', title: 'Soccer · 6–8pm', body: 'Your hardest session of the week. Pre-soccer snack at 4:00, 500–750 ml water with electrolytes during, dinner within an hour after. High-carb food day.' };
+  if (wd === 1) return { kind: 'gym', title: w >= 10 ? 'Legs (light) · 4–5pm' : 'Legs · 4–5pm', lift: 'Legs', body: w >= 10 ? 'Half the sets. Keep it easy, the race is close.' : (w <= 2 || before ? 'Re-entry week: stop every set at 3 reps in reserve.' : 'Moderate. You played soccer last night.') };
+  if (wd === 3) return { kind: 'gym', title: 'Push · 4–5pm', lift: 'Push', body: w <= 2 || before ? 'Re-entry week: stop every set at 3 reps in reserve.' : (w === 6 ? 'Deload week: same weights, half the sets.' : 'Normal progression.') };
+  if (wd === 5) return { kind: 'gym', title: 'Pull · 3–4pm', lift: 'Pull', body: (w <= 2 || before ? 'Re-entry week: stop every set at 3 RIR. ' : '') + (wk.sat && !before ? `Optional ${wk.sat} km easy run right after, only if recovery is 50%+.` : '') };
+  if (wd === 2) return { kind: 'run', title: before ? 'Run · 4:30pm' : `Run · week ${w}`, body: before ? 'Plan starts Monday.' : wk.wed + '. Recovery under 50%? Run it easy instead.' };
+  return { kind: before ? 'rest' : 'run', title: before ? 'Reset day' : `Long run · ${wk.sun}`, body: before ? 'Church, meal prep at 1:30, weekly review at 3:00. The plan starts tomorrow.' : `Start at 4:00. ${wk.sun}. Easy means full sentences. Have a banana at 3:30 if the run is over 8 km.` };
+}
+function foodTypeFor(d) {
+  const wd = dow(d), w = planWeek(d), s = iso(d);
+  if (s === '2026-12-28') return 'standard';
+  if (wd === 0 || wd === 4) return 'high';
+  if (wd === 6 && w >= 7 && w <= 9) return 'high';
+  return 'standard';
+}
+
+/* ---------- tabs ---------- */
+const TABS = ['today', 'week', 'train', 'food', 'sleep', 'progress', 'rules'];
+function showTab(t) {
+  if (!TABS.includes(t)) t = 'today';
+  for (const x of TABS) { $('#p-' + x).hidden = x !== t; $('#t-' + x).setAttribute('aria-selected', x === t ? 'true' : 'false'); }
+  store.set('pb-tab', t);
+  if (t === 'progress') { renderProgress(); renderMedals(); }
+}
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { showTab(b.dataset.tab); window.scrollTo({ top: 0 }); }));
+
+/* ---------- state ---------- */
+let viewDate = midnight(new Date());
+const LOGS = {}; // iso -> doc
+let db = null, storeMode = 'loading';
+const writeChains = {};
+
+function getLog(s) { return LOGS[s] || { h: {}, training: '', weight: null, rec: null, sleep: null, km: null, note: '' }; }
+function saveLog(s, doc) {
+  doc.updated = new Date().toISOString();
+  LOGS[s] = doc;
+  if (storeMode === 'db') {
+    $('#saveState').textContent = 'Saving…';
+    const ref = db.doc('days/' + s);
+    writeChains[s] = (writeChains[s] || Promise.resolve()).then(() => ref.set(JSON.parse(JSON.stringify(doc)))).then(() => { $('#saveState').textContent = 'Saved'; }).catch(e => {
+      $('#saveState').textContent = e && e.code === 'quota_exceeded' ? 'Storage is full, so this day was not saved.' : 'Could not save. Check your connection and try again.';
+    });
+  } else {
+    store.set('pb-logs', JSON.stringify(LOGS));
+    $('#saveState').textContent = 'Saved on this device';
+  }
+  renderScore();
+}
+
+/* ---------- TODAY ---------- */
+function renderToday() {
+  const d = viewDate, s = iso(d), wd = dow(d), w = planWeek(d), today = iso(midnight(new Date()));
+  const sess = sessionFor(d);
+  $('#todayKicker').textContent = s < '2026-10-19' ? 'Plan starts Mon, Oct 19' : (s > '2026-12-31' ? 'After race day' : `Week ${w} of 11` + (wd === 0 ? ' · new week, clean slate' : s === today ? ' · today' : ''));
+  $('#todayTitle').textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  const dt = { soc: 'Soccer day', gym: 'Lifting day', run: 'Run day', rest: 'Reset day' }[sess.kind];
+  $('#todaySub').textContent = `${dt} · ${foodTypeFor(d) === 'high' ? 'high-carb food' : 'standard food'} · lights out ${fmtM(1440 + lightsOutFor(d))}`;
+  $('#goToday').disabled = s === today;
+  // session
+  const box = el('div', { class: 'sess s-' + sess.kind });
+  box.append(el('div', { class: 'ttl', text: sess.title }), el('p', { class: 'small muted', text: sess.body }));
+  if (sess.lift && !(w >= 11)) {
+    const L = LIFTS[sess.lift], t = el('table');
+    t.append(el('tr', { html: '<th>Exercise</th><th>Sets × reps</th><th>Rest</th><th>Effort</th>' }));
+    for (const r of L.rows) t.append(el('tr', { html: r.map(x => `<td>${x}</td>`).join('') }));
+    box.append(el('div', { class: 'tbl' }, t), el('p', { class: 'small muted', text: 'Warm-up 8 min: easy bike or row, mobility, 2 ramp-up sets. ' + L.note }));
+  }
+  $('#session').replaceChildren(box);
+  // timeline
+  const items = DATA.schedule[String(wd)].filter(e => !(s === '2026-12-28' && /Soccer|soccer|Travel/.test(e[1])));
+  const lo = lightsOutFor(d), nowM = (() => { const n = new Date(); const m = n.getHours() * 60 + n.getMinutes(); return m < 300 ? m + 1440 : m; })();
+  const ul = $('#timeline'); ul.replaceChildren();
+  for (const [cat, title0, a, b0] of items) {
+    let title = title0, b = b0, aa = a;
+    if (title0 === 'Wind-down') { aa = 1440 + lo - 60; b = 1440 + lo; title = `Wind-down → lights out ${fmtM(b)}`; }
+    if (title0.startsWith('Run (see')) title = 'Run: ' + (RUNS[Math.min(Math.max(w, 1), 11) - 1].wed.split(' (')[0]);
+    if (title0 === 'Long easy run' && s >= '2026-10-19') title = 'Long run: ' + RUNS[Math.min(Math.max(w, 1), 11) - 1].sun;
+    if (title0 === 'Optional easy run') { const r = RUNS[Math.min(Math.max(w, 1), 11) - 1]; if (!r.sat) continue; title = `Optional ${r.sat} km easy`; }
+    const li = el('li');
+    if (s === today) { if (nowM >= aa && nowM < b) li.classList.add('now'); else if (nowM >= b) li.classList.add('past'); }
+    if (['gym', 'soc', 'run', 'class'].includes(cat)) li.classList.add('big');
+    li.append(el('span', { class: 'tm', text: `${fmtS(aa)}–${fmtS(b)}` }),
+      el('span', { class: 'blk' }, el('span', { class: 'sw c-' + cat, style: `--sw:var(--${cat}-br)` }), el('span', { class: 'nm', text: title })));
+    ul.append(li);
+  }
+  const nn = $('#nowNext');
+  if (s === today) {
+    const blocks = items.map(e => e[1] === 'Wind-down' ? [e[0], 'Wind-down', 1440 + lo - 60, 1440 + lo] : e);
+    const cur = blocks.find(e => nowM >= e[2] && nowM < e[3]), nxt = blocks.find(e => e[2] > nowM);
+    const asleep = nowM >= 1440 + lo || nowM < 600;
+    nn.hidden = false;
+    nn.innerHTML = `<div class="now"><span class="label">Now</span><span class="big">${asleep ? 'Sleep' : cur ? cur[1] : 'Free time'}</span><span class="small">${asleep ? 'Up at 10:00am' : cur ? 'until ' + fmtM(cur[3]) : 'Your time. Nothing scheduled.'}</span></div><div><span class="label">Next</span><span class="big">${nxt && !asleep ? nxt[1] : 'Wake + routine'}</span><span class="small muted">${nxt && !asleep ? 'at ' + fmtM(nxt[2]) : '10:00am'}</span></div>`;
+  } else nn.hidden = true;
+  const FOCUS = ['Get up at 10:00 every day and follow the lights-out ramp. Nothing else is new yet.', 'Add Sunday meal prep and the nightly launch pad.', 'Add the full wind-down routine and the Wed/Sun runs.', 'Everything, plus the Sunday review on the Progress tab.'];
+  $('#focus').innerHTML = s < '2026-10-19' ? '<b>Starts tomorrow.</b> Week 1 has one job: up at 10:00 every day.' : s > '2026-12-31' ? '' : `<b>This week's focus:</b> ${FOCUS[Math.min(w, 4) - 1]}`;
+  $('#lightsPill').textContent = `Wake 10:00 · lights out ${fmtM(1440 + lo)}`;
+  // check-in
+  const log = getLog(s), checks = $('#checks'); checks.replaceChildren();
+  for (const [k, name, why] of HABITS) {
+    const id = 'h-' + k, on = !!log.h[k];
+    const lab = el('label', { class: 'chk' + (on ? ' on' : ''), for: id });
+    const inp = el('input', { type: 'checkbox', id }); inp.checked = on;
+    inp.addEventListener('change', () => { const L = structuredClone(getLog(s)); L.h[k] = inp.checked; lab.classList.toggle('on', inp.checked); saveLog(s, L); afterHabit(s, L); });
+    lab.append(inp, el('span', { text: name }), el('span', { class: 'why', text: why }));
+    checks.append(lab);
+  }
+  $('#fWeight').value = log.weight ?? ''; $('#fRec').value = log.rec ?? ''; $('#fSleep').value = log.sleep ?? ''; $('#fKm').value = log.km ?? ''; $('#fNote').value = log.note || '';
+  document.querySelectorAll('#segTrain button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === log.training ? 'true' : 'false'));
+  $('#saveState').textContent = storeMode === 'db' && LOGS[s] ? 'Saved' : '';
+  renderScore(); renderRec(log.rec); renderLaunchpad(); renderStreaks();
+  // food
+  const ft = foodTypeFor(d); $('#foodType').textContent = { standard: 'Standard · ~2,500 kcal', high: 'High · ~2,800 kcal', recovery: 'Recovery · ~2,310 kcal' }[ft];
+  renderMealTable($('#todayMeals'), ft, wd, true);
+}
+function afterHabit(s, L) {
+  const n = HABITS.filter(h => L.h[h[0]]).length;
+  if (n === 6) { toast('Perfect day', 'All six. That\'s what consistency looks like.'); confetti(); }
+  renderStreaks(); checkMedals(true);
+}
+function renderScore() { const L = getLog(iso(viewDate)); const n = HABITS.filter(h => L.h[h[0]]).length; $('#scoreN').textContent = `${n}/6`; }
+function renderRec(r) {
+  const box = $('#recAdvice'), n = Number(r);
+  if (r === null || r === '' || Number.isNaN(n)) { box.innerHTML = '<p class="muted">Enter today\'s WHOOP recovery above and this tells you how hard to go.</p>'; return; }
+  const [cls, txt] = n >= 67 ? ['good', 'Green. Do the plan as written.'] : n >= 50 ? ['warn', 'Yellow. Do the session, but stop at 2 reps in reserve or RPE 7.'] : n >= 34 ? ['warn', 'Low yellow. Lift at 2 RIR. A quality run becomes an easy run today.'] : ['bad', 'Red. Swap the session for a 30-min walk and mobility. Keep the wake time and lights out.'];
+  box.innerHTML = `<p><span class="pill ${cls}">${n}%</span> ${txt}</p>`;
+}
+function bindInputs() {
+  const num = (id, key, lo, hi) => { let t; $(id).addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { const s = iso(viewDate), L = structuredClone(getLog(s)); const v = e.target.value === '' ? null : Number(e.target.value); if (v !== null && (Number.isNaN(v) || v < lo || v > hi)) { $('#saveState').textContent = `That number looks off. Use ${lo}–${hi}.`; return; } if (L[key] === v) return; L[key] = v; saveLog(s, L); if (key === 'rec') renderRec(v); }, 700); }); };
+  num('#fWeight', 'weight', 100, 300); num('#fRec', 'rec', 0, 100); num('#fSleep', 'sleep', 0, 14); num('#fKm', 'km', 0, 50);
+  let tn; $('#fNote').addEventListener('input', e => { clearTimeout(tn); tn = setTimeout(() => { const s = iso(viewDate), L = structuredClone(getLog(s)); if (L.note === e.target.value) return; L.note = e.target.value; saveLog(s, L); }, 900); });
+  document.querySelectorAll('#segTrain button').forEach(b => b.addEventListener('click', () => {
+    const s = iso(viewDate), L = structuredClone(getLog(s)); L.training = L.training === b.dataset.v ? '' : b.dataset.v;
+    if (L.training === 'done' || L.training === 'min') L.h.training = true; else if (L.training === 'missed') L.h.training = false;
+    saveLog(s, L); renderToday();
+    if (L.training === 'done') { const n = weekSessions(); toast('Nice work', DONE_LINES[Math.floor(Math.random() * DONE_LINES.length)](n)); }
+    else if (L.training === 'min') toast('Minimum version counts', 'The chain holds. Full session next time.');
+    else if (L.training === 'missed') toast('Missed is data, not a verdict', `Never miss twice. Next up: ${nextSessionName(viewDate)}.`);
+    checkMedals(true);
+  }));
+  $('#prevDay').addEventListener('click', () => { viewDate = new Date(viewDate.getTime() - DAYMS); viewDate = midnight(viewDate); renderToday(); });
+  $('#nextDay').addEventListener('click', () => { viewDate = midnight(new Date(viewDate.getTime() + DAYMS + 3600000)); renderToday(); });
+  $('#goToday').addEventListener('click', () => { viewDate = midnight(new Date()); renderToday(); });
+}
+
+/* ---------- meals ---------- */
+function mealTimes(wd) {
+  const sch = DATA.schedule[String(wd)], f = re => sch.find(e => re.test(e[1]));
+  const snack = f(/^Pre-/), lunch = f(/^Lunch/), dinner = f(/^Dinner/), bowl = f(/^Yogurt bowl/);
+  return ['10:15am', lunch ? fmtM(lunch[2]) : '', snack ? fmtM(snack[2]) : '', bowl ? fmtM(bowl[2]) : '', dinner ? fmtM(dinner[2]) : ''];
+}
+function renderMealTable(t, type, wd, compact) {
+  const P = DATA.meals[type], times = wd === null ? ['10:15am', '12:15–1pm', '60–90 min before', 'Right after training', 'Dinner time'] : mealTimes(wd);
+  t.replaceChildren(el('tr', { html: compact ? '<th>When</th><th>Meal</th><th class="r">kcal</th><th class="r">P</th>' : '<th>When</th><th>Meal</th><th>What (grams)</th><th class="r">kcal</th><th class="r">P</th><th class="r">C</th><th class="r">F</th><th class="r">Fiber</th>' }));
+  P.meals.forEach((m, i) => {
+    const what = m.items.map(([f, g]) => `${g} g ${f}`).join(', ');
+    t.append(el('tr', { html: compact
+      ? `<td class="num">${times[i]}</td><td><b>${MEAL_NAMES[i]}</b><div class="small muted">${what}</div></td><td class="r">${m.m[0]}</td><td class="r">${m.m[1]}</td>`
+      : `<td class="num">${times[i]}</td><td><b>${MEAL_NAMES[i]}</b></td><td class="small">${what}</td>${m.m.map(x => `<td class="r">${x}</td>`).join('')}` }));
+  });
+  const T = P.total;
+  t.append(el('tr', { class: 'tot', html: compact ? `<td></td><td>Total · ${T[2]} g carbs · ${T[3]} g fat</td><td class="r">${T[0].toLocaleString()}</td><td class="r">${T[1]}</td>` : `<td></td><td>Total</td><td></td>${T.map(x => `<td class="r">${x.toLocaleString()}</td>`).join('')}` }));
+}
+function renderFood(type) {
+  document.querySelectorAll('#segFood button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === type ? 'true' : 'false'));
+  const T = DATA.meals[type].total;
+  $('#macroTiles').replaceChildren(...[['Calories', T[0].toLocaleString(), 'kcal'], ['Protein', T[1], 'g'], ['Carbs', T[2], 'g'], ['Fat', T[3], 'g'], ['Fiber', T[4], 'g']].map(([l, v, u]) => el('div', { class: 'macro card' }, el('div', { class: 'label', text: l }), el('div', { class: 'v', html: `${v}<span class="small muted"> ${u}</span>` }))));
+  renderMealTable($('#mealTable'), type, null, false);
+}
+document.querySelectorAll('#segFood button').forEach(b => b.addEventListener('click', () => renderFood(b.dataset.v)));
+function renderGrocery() {
+  let got = {}; try { got = JSON.parse(store.get('pb-grocery') || '{}'); } catch (e) {}
+  const box = $('#grocery'); box.replaceChildren();
+  GROCERY.forEach(([n, q], i) => {
+    const id = 'g' + i, lab = el('label', { for: id, class: got[i] ? 'got' : '' }), inp = el('input', { type: 'checkbox', id }); inp.checked = !!got[i];
+    inp.addEventListener('change', () => { got[i] = inp.checked; lab.classList.toggle('got', inp.checked); store.set('pb-grocery', JSON.stringify(got)); });
+    lab.append(inp, el('span', { html: `${n} <span class="muted">· ${q}</span>` })); box.append(lab);
+  });
+}
+$('#clearGrocery').addEventListener('click', () => { store.set('pb-grocery', '{}'); renderGrocery(); });
+
+/* ---------- week ---------- */
+function renderWeek() {
+  const g = $('#weekGrid'); g.replaceChildren(el('div'));
+  const td = dow(new Date());
+  DOW.forEach((d, i) => g.append(el('div', { class: 'dh' + (i === td ? ' today' : ''), html: `${d}<small>${['Soccer', 'Legs', 'Run', 'Push', 'Soccer', 'Pull', 'Long run'][i]}</small>` })));
+  const grid = el('div', { class: 'wkg' });
+  for (let h = 10; h <= 24; h++) { const r = (h - 10) * 4 + 1, hh = h % 24; grid.append(el('div', { class: 'tl2', style: `grid-row:${r}`, text: `${(hh % 12) || 12}${hh < 12 ? 'a' : 'p'}` }), el('div', { class: 'hl', style: `grid-row:${r}` })); }
+  for (let d = 0; d < 7; d++) for (const [cat, title, a, b] of DATA.schedule[String(d)]) {
+    const r = (a - 600) / 15 + 1, span = (b - a) / 15, thin = b - a < 30;
+    grid.append(el('div', { class: `ev c-${cat}${thin ? ' thin' : ''}`, style: `grid-column:${d + 2};grid-row:${r} / span ${span}`, title: `${title} · ${fmtM(a)}–${fmtM(b)}`, html: thin ? `${title}` : `<b>${title}</b><span>${fmtS(a)}–${fmtS(b)}</span>` }));
+  }
+  g.append(grid);
+  $('#legend').replaceChildren(...DATA.legend.map(([k, n]) => el('span', { html: `<i class="sw c-${k}" style="--sw:var(--${k}-br)"></i>${n}` })));
+  const sum = c => DATA.schedule && Object.values(DATA.schedule).flat().filter(e => e[0] === c).reduce((a, e) => a + e[3] - e[2], 0) / 60;
+  const tiles = [['Lifting', sum('gym') + 'h', '3 × 60 min'], ['Soccer', sum('soc') + 'h', 'Mon + Fri'], ['Prosper', sum('pros') + 'h', 'Mon · Wed · Fri'], ['Study', sum('stud') + 'h', '3 core + 1 flex'], ['Zone 1 walks', sum('walk') + 'h', '5 walks'], ['In bed', '64¾h', '9h15 × 7']];
+  $('#weekTotals').replaceChildren(...tiles.map(([l, v, s]) => el('div', { class: 'tile' }, el('div', { class: 'label', text: l }), el('div', { class: 'v', text: v }), el('div', { class: 'small muted', text: s }))));
+}
+
+/* ---------- training ---------- */
+function renderTraining() {
+  const w = planWeek(new Date()), t = $('#runTable');
+  t.replaceChildren(el('tr', { html: '<th>Wk</th><th>Dates</th><th>Wednesday</th><th>Sunday (long)</th><th>Sat (optional)</th><th class="r">km</th><th>Logged</th>' }));
+  RUNS.forEach((r, i) => {
+    const mon = new Date(PLAN_START.getTime() + i * 7 * DAYMS + 3600000), sun = new Date(mon.getTime() + 6 * DAYMS);
+    const ds = `${mon.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}–${i === 10 ? 'Dec 31' : sun.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    let logged = 0; for (let k = 0; k < 7; k++) { const L = LOGS[iso(new Date(mon.getTime() + k * DAYMS))]; if (L && L.km) logged += Number(L.km); }
+    t.append(el('tr', { class: i + 1 === w ? 'cur' : '', html: `<td class="num"><b>${i + 1}</b></td><td class="num">${ds}</td><td>${r.wed}${r.special ? `<div class="small muted">${r.special}</div>` : ''}</td><td>${r.sun}</td><td>${r.sat ? r.sat + ' km easy' : '—'}</td><td class="r">${r.km}</td><td class="num">${logged ? logged.toFixed(1) + ' km' : '—'}</td>` }));
+  });
+  $('#runWeekPill').textContent = w < 1 ? 'Starts Mon, Oct 19' : w > 11 ? 'Done' : `This is week ${w}`;
+  $('#liftCards').replaceChildren(...Object.entries(LIFTS).map(([n, L]) => {
+    const tb = el('table'); tb.append(el('tr', { html: '<th>Exercise</th><th>Sets</th><th>Rest</th>' }));
+    L.rows.forEach(r => tb.append(el('tr', { html: `<td>${r[0]}<div class="small muted">${r[3]}</div></td><td class="num">${r[1]}</td><td class="num">${r[2]}</td>` })));
+    return el('div', { class: 'card' }, el('div', { class: 'label', text: L.day }), el('h3', { text: n }), el('div', { class: 'tbl' }, tb), el('p', { class: 'small muted', style: 'margin-top:8px', text: L.note }));
+  }));
+}
+
+/* ---------- sleep ---------- */
+function renderSleep() {
+  const t = $('#rampTable'), today = iso(new Date());
+  t.replaceChildren(el('tr', { html: '<th>Dates</th><th>Lights out</th><th>Wake</th><th>In bed</th>' }));
+  for (const [a, b, m] of SLEEP_RAMP) {
+    const cur = today >= a && today <= b;
+    t.append(el('tr', { class: cur ? 'cur' : '', html: `<td class="num">${fmtDate(fromIso(a))} – ${fmtDate(fromIso(b))}${cur ? ' <span class="pill acc">now</span>' : ''}</td><td class="num"><b>${fmtM(1440 + m)}</b></td><td class="num">10:00am</td><td class="num">${Math.floor((600 - m) / 60)}h${pad((600 - m) % 60)}</td>` }));
+  }
+  $('#tonight').textContent = fmtS(1440 + lightsOutFor(new Date()));
+}
+
+/* ---------- progress ---------- */
+function renderProgress() {
+  const keys = Object.keys(LOGS).sort();
+  const wts = keys.filter(k => LOGS[k].weight).map(k => [k, Number(LOGS[k].weight)]);
+  const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const today = midnight(new Date());
+  const lastN = (n, off = 0) => { const out = []; for (let i = off; i < off + n; i++) out.push(iso(new Date(today.getTime() - i * DAYMS))); return out; };
+  const wAvg = days => avg(days.map(d => LOGS[d]?.weight).filter(Boolean).map(Number));
+  const recAvg = days => avg(days.map(d => LOGS[d]?.rec).filter(v => v !== null && v !== undefined && v !== '').map(Number));
+  const thisW = wAvg(lastN(7)), prevW = wAvg(lastN(7, 7)), rec7 = recAvg(lastN(7));
+  let hTicks = 0; lastN(7).forEach(d => { const L = LOGS[d]; if (L) hTicks += HABITS.filter(h => L.h[h[0]]).length; });
+  const km7 = lastN(7).reduce((a, d) => a + (Number(LOGS[d]?.km) || 0), 0);
+  const days = keys.length;
+  const tiles = [
+    ['Days logged', days, 'since you started'], ['Habits, last 7 days', Math.round(hTicks / 42 * 100) + '%', 'goal 80%+'],
+    ['Avg weight, 7 days', thisW ? thisW.toFixed(1) + ' lb' : '—', prevW && thisW ? `${(thisW - prevW >= 0 ? '+' : '') + (thisW - prevW).toFixed(1)} lb vs week before` : 'needs a week of weigh-ins'],
+    ['Avg recovery, 7 days', rec7 !== null ? Math.round(rec7) + '%' : '—', 'WHOOP'], ['Run km, 7 days', km7 ? km7.toFixed(1) : '—', 'from check-ins'],
+    ['Race', Math.max(0, daysBetween(today, RACE)) + ' days', 'Thu, Dec 31'],
+  ];
+  $('#progTiles').replaceChildren(...tiles.map(([l, v, s]) => el('div', { class: 'tile' }, el('div', { class: 'label', text: l }), el('div', { class: 'v', text: String(v) }), el('div', { class: 'small muted', text: s }))));
+  // weight chart
+  const wc = $('#weightChart');
+  if (wts.length < 2) { wc.replaceChildren(el('div', { class: 'empty', text: 'Log your weight each morning on the Today tab (after the bathroom, before food). The line appears after two weigh-ins, and the 7-day average after a week.' })); }
+  else {
+    const W = 760, H = 220, L = 44, R = 12, T = 12, B = 26;
+    const t0 = fromIso(wts[0][0]), t1 = fromIso(wts[wts.length - 1][0]), span = Math.max(1, daysBetween(t0, t1));
+    const vals = wts.map(x => x[1]); let lo = Math.floor(Math.min(...vals) - 1), hi = Math.ceil(Math.max(...vals) + 1);
+    const x = k => L + daysBetween(t0, fromIso(k)) / span * (W - L - R), y = v => T + (hi - v) / (hi - lo) * (H - T - B);
+    let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Weight chart">`;
+    const step = Math.max(1, Math.round((hi - lo) / 4));
+    for (let v = lo; v <= hi; v += step) svg += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`;
+    svg += `<text x="${L}" y="${H - 6}">${fmtDate(t0)}</text><text x="${W - R}" y="${H - 6}" text-anchor="end">${fmtDate(t1)}</text>`;
+    const ma = wts.map(([k]) => { const d = fromIso(k); const win = wts.filter(([k2]) => { const dd = daysBetween(fromIso(k2), d); return dd >= 0 && dd < 7; }).map(z => z[1]); return [k, avg(win)]; });
+    svg += `<polyline fill="none" stroke="var(--ink-3)" stroke-width="1.2" stroke-dasharray="3 3" points="${wts.map(([k, v]) => `${x(k)},${y(v)}`).join(' ')}"/>`;
+    svg += wts.map(([k, v]) => `<circle cx="${x(k)}" cy="${y(v)}" r="2.6" fill="var(--ink-3)"/>`).join('');
+    svg += `<polyline fill="none" stroke="var(--accent)" stroke-width="2.5" points="${ma.map(([k, v]) => `${x(k)},${y(v)}`).join(' ')}"/>`;
+    const lastMa = ma[ma.length - 1]; svg += `<circle cx="${x(lastMa[0])}" cy="${y(lastMa[1])}" r="4.5" fill="var(--accent)"/><text x="${x(lastMa[0]) - 8}" y="${y(lastMa[1]) - 9}" text-anchor="end" style="fill:var(--accent)">${lastMa[1].toFixed(1)}</text>`;
+    wc.innerHTML = svg + '</svg><p class="small muted" style="margin-top:6px">Dots are daily weigh-ins. The blue line is the 7-day average, the only number to judge.</p>';
+  }
+  // weekly table
+  const t = $('#weekScore'); t.replaceChildren(el('tr', { html: '<th>Week</th><th class="r">Habits</th><th class="r">Lifts</th><th class="r">Run km</th><th class="r">Avg weight</th><th class="r">Avg recovery</th>' }));
+  const w = Math.min(11, Math.max(1, planWeek(today)));
+  for (let i = 0; i < w; i++) {
+    const mon = new Date(PLAN_START.getTime() + i * 7 * DAYMS + 3600000), ds = [];
+    for (let k = 0; k < 7; k++) ds.push(iso(new Date(mon.getTime() + k * DAYMS)));
+    let ticks = 0, lifts = 0, km = 0; ds.forEach((d, k) => { const L = LOGS[d]; if (!L) return; ticks += HABITS.filter(h => L.h[h[0]]).length; if ([1, 3, 5].includes(k) && (L.training === 'done' || L.training === 'min')) lifts++; km += Number(L.km) || 0; });
+    const wa = wAvg(ds), ra = recAvg(ds);
+    t.append(el('tr', { class: i + 1 === planWeek(today) ? 'cur' : '', html: `<td class="num">Week ${i + 1} · ${mon.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td><td class="r">${Math.round(ticks / 42 * 100)}%</td><td class="r">${lifts}/3</td><td class="r">${km ? km.toFixed(1) : '—'} / ${RUNS[i].km}</td><td class="r">${wa ? wa.toFixed(1) : '—'}</td><td class="r">${ra !== null ? Math.round(ra) + '%' : '—'}</td>` }));
+  }
+  // adjustments
+  const adv = [];
+  if (thisW && prevW) {
+    const ch = thisW - prevW;
+    if (ch > 0) adv.push(['bad', `Weight is up ${ch.toFixed(1)} lb on the 7-day average. Cut 200 kcal and weigh your food for 3 days.`]);
+    else if (ch > -0.25) adv.push(['warn', `Losing ${(-ch).toFixed(1)} lb a week, under the 0.5 lb target. Cut 150 kcal on standard days: rice to 100 g, drop the chocolate.`]);
+    else if (ch < -1.25) adv.push(['warn', `Losing ${(-ch).toFixed(1)} lb a week, faster than planned. Add 150 kcal (rice or a banana) to protect your lifts and runs.`]);
+    else adv.push(['good', `Losing ${(-ch).toFixed(1)} lb a week. Right on target, change nothing.`]);
+  } else adv.push(['', 'Two weeks of morning weigh-ins unlock the calorie advice here.']);
+  if (rec7 !== null) adv.push(rec7 < 55 ? ['warn', `Recovery is averaging ${Math.round(rec7)}%. Make Wednesday's run easy and skip the Saturday run until it's back above 60%.`] : rec7 >= 70 ? ['good', `Recovery is averaging ${Math.round(rec7)}%. If that holds for 3 weeks with lights out on time, you can add an arm day.`] : ['good', `Recovery is averaging ${Math.round(rec7)}%. Keep going.`]);
+  $('#adjust').replaceChildren(...adv.map(([c, txt]) => el('p', { html: c ? `<span class="pill ${c}">${{ good: 'On track', warn: 'Adjust', bad: 'Fix' }[c]}</span> ${txt}` : `<span class="muted">${txt}</span>` })));
+}
+
+
+/* ---------- motivation layer ---------- */
+const META = { why: '', identity: '' };
+const reduceMotion = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } })();
+let toastT, toastQ = [];
+function toast(title, body) {
+  toastQ.push([title, body]); if (toastQ.length === 1) showToast();
+}
+function showToast() {
+  const t = $('#toast'), [title, body] = toastQ[0]; t.innerHTML = `<b>${title}</b>${body}`; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => { toastQ.shift(); if (toastQ.length) showToast(); else t.hidden = true; }, 3400);
+}
+function confetti() {
+  if (reduceMotion) return;
+  const c = $('#confetti'), x = c.getContext('2d'); const W = c.width = innerWidth, H = c.height = innerHeight;
+  const cs = getComputedStyle(document.documentElement);
+  const cols = ['--accent', '--good', '--warn', '--gym-br', '--soc-br', '--run-br'].map(v => cs.getPropertyValue(v).trim() || '#1f45c8');
+  const P = Array.from({ length: 140 }, () => ({ x: W / 2 + (Math.random() - .5) * 120, y: H * .35, vx: (Math.random() - .5) * 13, vy: -Math.random() * 13 - 4, r: Math.random() * 6 + 4, a: Math.random() * 6, c: cols[Math.floor(Math.random() * cols.length)] }));
+  const t0 = performance.now();
+  (function f(t) { x.clearRect(0, 0, W, H); const k = (t - t0) / 1600; P.forEach(p => { p.vy += .35; p.x += p.vx; p.y += p.vy; p.a += .2; x.save(); x.globalAlpha = Math.max(0, 1 - k); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); x.restore(); }); if (k < 1) requestAnimationFrame(f); else x.clearRect(0, 0, W, H); })(t0);
+}
+const hit = (s, k) => !!(LOGS[s] && LOGS[s].h && LOGS[s].h[k]);
+const shift = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+function streakOf(k) {
+  // "never miss twice": one missed day doesn't break it, two in a row do. Today only counts once it's ticked.
+  let d = midnight(new Date()), n = 0, gap = 0;
+  if (!hit(iso(d), k)) d = shift(d, -1);
+  for (let i = 0; i < 120 && iso(d) >= '2026-10-12'; i++, d = shift(d, -1)) {
+    if (hit(iso(d), k)) { n++; gap = 0; } else if (++gap >= 2) break;
+  }
+  return n;
+}
+function bestStreak(k) {
+  const keys = Object.keys(LOGS).sort(); if (!keys.length) return 0;
+  const end = iso(new Date()); let best = 0, n = 0, gap = 0;
+  for (let d = fromIso(keys[0]); iso(d) <= end; d = shift(d, 1)) {
+    const s = iso(d);
+    if (hit(s, k)) { n++; gap = 0; best = Math.max(best, n); } else if (s !== end && ++gap >= 2) n = 0;
+  }
+  return best;
+}
+function weekDays(d) { const mon = shift(midnight(d), -dow(d)); return Array.from({ length: 7 }, (_, i) => shift(mon, i)); }
+function dotsFor(fn) {
+  const today = iso(new Date());
+  return '<div class="dots">' + weekDays(new Date()).map(d => { const s = iso(d); const st = fn(s); const fut = s > today; return `<span class="dot ${fut ? 'fut' : st}${s === today ? ' tdy' : ''}" title="${fmtDate(d)}"></span>`; }).join('') + '</div>';
+}
+function renderStreaks() {
+  const today = iso(new Date());
+  const perfect = weekDays(new Date()).filter(d => { const L = LOGS[iso(d)]; return L && HABITS.every(h => L.h[h[0]]); }).length;
+  const tiles = [
+    ['Wake streak', streakOf('wake'), 'days', s => hit(s, 'wake') ? 'on' : ''],
+    ['Lights-out streak', streakOf('lights'), 'nights', s => hit(s, 'lights') ? 'on' : ''],
+    ['Session streak', streakOf('training'), 'days', s => LOGS[s]?.training === 'min' ? 'min' : hit(s, 'training') ? 'on' : ''],
+    ['Perfect days', perfect, 'this week', s => { const L = LOGS[s]; return L && HABITS.every(h => L.h[h[0]]) ? 'on' : ''; }],
+  ];
+  $('#streaks').replaceChildren(...tiles.map(([l, v, u, fn]) => { const e = el('div', { class: 'streak' + (v >= 3 ? ' hot' : '') }); e.innerHTML = `<span class="label">${l}</span><span class="v">${v}<small>${u}</small></span>${dotsFor(fn)}`; return e; }));
+}
+const LP = [['clothes', "Tomorrow's clothes out"], ['bag', 'Gym bag packed (shoes, shaker, headphones)'], ['food', "Tomorrow's boxes in the fridge"], ['bottle', 'Water bottle filled, by the bed'], ['phone', 'Phone charging out of reach']];
+function renderLaunchpad() {
+  const s = iso(viewDate), log = getLog(s), box = $('#launchpad'); box.replaceChildren();
+  const lp = log.lp || {};
+  LP.forEach(([k, n]) => {
+    const id = 'lp-' + k, on = !!lp[k], lab = el('label', { class: 'chk' + (on ? ' on' : ''), for: id }), inp = el('input', { type: 'checkbox', id }); inp.checked = on;
+    inp.addEventListener('change', () => { const L = structuredClone(getLog(s)); L.lp = L.lp || {}; L.lp[k] = inp.checked; lab.classList.toggle('on', inp.checked); saveLog(s, L); const n2 = LP.filter(x => L.lp[x[0]]).length; $('#lpCount').textContent = `${n2}/5`; if (n2 === 5) toast('Launch pad ready', 'Tomorrow-you just has to wake up and follow the plan. Lights out on time.'); });
+    lab.append(inp, el('span', { text: n })); box.append(lab);
+  });
+  $('#lpCount').textContent = `${LP.filter(x => lp[x[0]]).length}/5`;
+}
+function stats() {
+  const keys = Object.keys(LOGS).sort();
+  let km = 0, maxKm = 0, sessions = 0, perfect = 0;
+  keys.forEach(k => { const L = LOGS[k]; const v = Number(L.km) || 0; km += v; maxKm = Math.max(maxKm, v); if (L.training === 'done' || L.training === 'min') sessions++; if (HABITS.every(h => L.h && L.h[h[0]])) perfect++; });
+  let w1 = 0; for (let i = 0; i < 7; i++) { if (hit(iso(shift(PLAN_START, i)), 'wake')) w1++; }
+  const race = LOGS['2026-12-31'];
+  return { days: keys.length, km, maxKm, sessions, perfect, wakeBest: bestStreak('wake'), lightsBest: bestStreak('lights'), w1, race: !!(race && (race.training === 'done' || Number(race.km) >= 10)) };
+}
+const MEDALS = [
+  ['First step', 'Log your first check-in', S => S.days >= 1],
+  ['Three-peat', 'Up at 10:00 three days running', S => S.wakeBest >= 3],
+  ['Clockwork', 'A 7-day wake streak', S => S.wakeBest >= 7],
+  ['Night owl tamed', 'Lights out on target 7 nights', S => S.lightsBest >= 7],
+  ['Perfect day', 'All six habits in one day', S => S.perfect >= 1],
+  ['Week one', 'Up at 10:00 on 6 of 7 days in week 1', S => S.w1 >= 6],
+  ['Ten down', '10 sessions done (minimum counts)', S => S.sessions >= 10],
+  ['First 25 km', 'Run 25 km in total', S => S.km >= 25],
+  ['Locked in', 'A 21-day wake streak', S => S.wakeBest >= 21],
+  ['Perfect five', 'Five perfect days', S => S.perfect >= 5],
+  ['Double digits', 'One run of 10 km or more', S => S.maxKm >= 10],
+  ['Thirty strong', '30 sessions done', S => S.sessions >= 30],
+  ['Century', 'Run 100 km in total', S => S.km >= 100],
+  ['Race day', 'Finish the 10K on Dec 31', S => S.race],
+];
+const MEDAL_SVG = n => `<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="18" r="11" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M10 2l4 7M22 2l-4 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><text x="16" y="22.5" text-anchor="middle" style="fill:currentColor;font:700 11px var(--f-display)">${n}</text></svg>`;
+function seenMedals() { try { return JSON.parse(store.get('pb-medals') || '[]'); } catch (e) { return []; } }
+function checkMedals(announce) {
+  const S = stats(), seen = new Set(seenMedals()), got = MEDALS.filter(m => m[2](S)).map(m => m[0]);
+  const fresh = got.filter(n => !seen.has(n));
+  if (fresh.length) { store.set('pb-medals', JSON.stringify(got)); if (announce) { const m = MEDALS.find(x => x[0] === fresh[0]); toast('Medal: ' + m[0], m[1] + '. See them all on Progress.'); confetti(); } }
+  return { S, got };
+}
+function renderMedals() {
+  const { got } = checkMedals(false);
+  $('#medalCount').textContent = `${got.length} of ${MEDALS.length}`;
+  $('#medals').replaceChildren(...MEDALS.map(([n, d], i) => { const on = got.includes(n); const e = el('div', { class: 'medal' + (on ? ' got' : '') }); e.innerHTML = `${MEDAL_SVG(i + 1)}<span class="mt">${n}</span><span class="small">${d}</span>`; return e; }));
+  const t = $('#chain'), today = midnight(new Date()), days = [];
+  for (let i = 13; i >= 0; i--) days.push(shift(today, -i));
+  t.innerHTML = '<thead><tr><th></th>' + days.map(d => `<th>${'MTWTFSS'[dow(d)]}</th>`).join('') + '</tr></thead><tbody>' + HABITS.map(([k, n]) => `<tr><th>${n}</th>` + days.map(d => { const s = iso(d); return `<td><i class="${hit(s, k) ? 'on' : ''}" title="${fmtDate(d)}"></i></td>`; }).join('') + '</tr>').join('') + '</tbody>';
+}
+function renderWhy() {
+  const w = $('#whyLine');
+  if (META.identity || META.why) w.innerHTML = `${META.identity ? `I'm the kind of person who ${META.identity.replace(/^…|^\.\.\./, '').replace(/[<>]/g, '')}` : ''}${META.identity && META.why ? '<br>' : ''}${META.why ? `<span class="muted">${META.why.replace(/[<>]/g, '')}</span>` : ''}`;
+  else { w.innerHTML = '<button class="linkbtn" id="addWhy">Add your why</button> <span class="muted">· it keeps the plan personal</span>'; $('#addWhy').addEventListener('click', () => { showTab('rules'); setTimeout(() => $('#fIdentity').focus(), 50); }); }
+  if (document.activeElement !== $('#fIdentity')) $('#fIdentity').value = META.identity || '';
+  if (document.activeElement !== $('#fWhy')) $('#fWhy').value = META.why || '';
+}
+function saveMeta() {
+  if (storeMode === 'db') { $('#whySave').textContent = 'Saving…'; db.doc('meta/profile').set({ ...META }).then(() => { $('#whySave').textContent = 'Saved'; }).catch(() => { $('#whySave').textContent = 'Could not save. Try again in a moment.'; }); }
+  else { store.set('pb-meta', JSON.stringify(META)); $('#whySave').textContent = 'Saved on this device'; }
+  renderWhy();
+}
+(() => { let t; ['fIdentity', 'fWhy'].forEach(id => $('#' + id).addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { META[id === 'fWhy' ? 'why' : 'identity'] = e.target.value.trim(); saveMeta(); }, 800); })); })();
+const DONE_LINES = [
+  n => `Session banked. That's ${n} this week.`,
+  () => 'Done. Dec 31 just got a little easier.',
+  n => `Logged. ${n} sessions this week and counting.`,
+  () => 'That\'s how race-ready happens: one ordinary session at a time.',
+  () => 'Showed up. That\'s the whole skill.',
+];
+function weekSessions() { return weekDays(new Date()).filter(d => { const L = LOGS[iso(d)]; return L && (L.training === 'done' || L.training === 'min'); }).length; }
+function nextSessionName(from) { const d = shift(from, 1), s = sessionFor(d); return `${s.title} on ${d.toLocaleDateString('en-US', { weekday: 'long' })}`; }
+
+/* ---------- header ---------- */
+function renderBib() { const n = daysBetween(new Date(), RACE); $('#bibDays').textContent = Math.max(0, n); $('#bibSub').textContent = n > 0 ? 'days to go · goal 55:00' : n === 0 ? 'race day · goal 55:00' : 'race done'; }
+
+function renderAll() { renderBib(); renderWhy(); renderToday(); renderWeek(); renderTraining(); renderSleep(); if (!$('#p-progress').hidden) { renderProgress(); renderMedals(); } }
+
+/* ---------- boot ---------- */
+bindInputs(); renderFood('standard'); renderGrocery();
+let initialTab = (location.hash || '').slice(1) || store.get('pb-tab') || 'today';
+showTab(initialTab); renderAll();
+setInterval(() => { if (!$('#p-today').hidden && iso(viewDate) === iso(new Date())) renderToday(); }, 60000);
+
+(async () => {
+  let ns = null;
+  try { ns = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch (e) { ns = null; }
+  if (ns) {
+    db = ns; storeMode = 'db';
+    db.doc('meta/profile').onSnapshot(snap => { if (snap.exists) { Object.assign(META, snap.data()); renderWhy(); } }, () => {});
+    db.collection('days').onSnapshot(snap => {
+      for (const ch of snap.docChanges()) { if (ch.type === 'removed') delete LOGS[ch.doc.id]; else LOGS[ch.doc.id] = structuredClone(ch.doc.data()); }
+      const typing = document.activeElement && ['fWeight', 'fRec', 'fSleep', 'fKm', 'fNote'].includes(document.activeElement.id);
+      if (!typing) renderToday(); renderTraining(); if (!$('#p-progress').hidden) { renderProgress(); renderMedals(); }
+    }, e => { storeMode = 'local'; $('#storeBanner').hidden = false; $('#storeBanner').textContent = 'Saving to your account stopped working, so check-ins now save on this device only.'; });
+  } else {
+    storeMode = 'local';
+    try { Object.assign(LOGS, JSON.parse(store.get('pb-logs') || '{}')); Object.assign(META, JSON.parse(store.get('pb-meta') || '{}')); } catch (e) {}
+    $('#storeBanner').hidden = false; $('#storeBanner').textContent = 'Your check-ins save in this browser on this device.';
+    renderAll();
+  }
+})();
+</script>
+</body></html>
