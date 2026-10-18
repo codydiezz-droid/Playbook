@@ -158,6 +158,15 @@ section[role="tabpanel"]{display:grid;gap:22px}
 .ringwrap{display:flex;gap:14px;align-items:center}
 .ring{width:64px;height:64px;flex:none}
 @media (max-width:860px){.todaygrid > .stack:last-child{order:-1}}
+.days{display:grid;gap:8px}
+.dayrow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;border-left-width:4px}
+.dayrow.s-gym{border-left-color:var(--gym-br)}.dayrow.s-soc{border-left-color:var(--soc-br)}.dayrow.s-run{border-left-color:var(--run-br)}.dayrow.s-rest{border-left-color:var(--line)}
+.dayrow.today{background:var(--accent-soft)}
+.dayrow .dn{font-family:var(--f-display);font-weight:700;font-size:18px;text-transform:uppercase;line-height:1.1}
+.dayrow .dd{font-size:12px;color:var(--ink-3)}
+.dayrow .tt{font-weight:700}
+.dayrow ul{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--ink-2)}
+@media (max-width:560px){.dayrow{grid-template-columns:minmax(0,1fr);gap:4px}}
 .banner{border-radius:10px;padding:10px 14px;font-size:13.5px;background:var(--warn-soft);color:var(--warn)}
 
 /* today head */
@@ -402,6 +411,14 @@ svg text{fill:var(--ink-3);font-family:var(--f-mono);font-size:10px}
 <!-- TRAINING -->
 <section role="tabpanel" id="p-train" aria-labelledby="t-train" hidden>
   <div><div class="label">Lift Tue · Thu · Sat — Run Wed · Sun</div><h2>Training</h2></div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <h3>Your week, day by day</h3>
+      <label class="field" style="min-width:220px"><span class="label">Pick a week</span><select id="weekPick"></select></label>
+    </div>
+    <p class="small muted" id="weekPickNote" style="margin-top:6px"></p>
+    <div class="days" id="weekDays" style="margin-top:12px"></div>
+  </div>
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3>10K build · 9 → 21 km a week, then taper</h3><span class="pill acc" id="runWeekPill"></span></div>
     <div class="tbl" style="margin-top:10px"><table id="runTable"></table></div>
@@ -693,6 +710,7 @@ const RUNS = [
   { wed: 'Taper: 2 km WU · 2 × 2 km race pace · 1.5 km CD', sun: '7 km easy', km: 14.5 },
   { wed: 'Wed 30: 3 km shakeout + 4 strides', sun: 'Thu 31: race 10 km', km: 18, special: 'Mon 28: 5 km easy with 3 × 1 min at race pace. Tue 29: rest.' },
 ];
+const RUN_T = ['4 km easy', '4.5 km easy + strides', '3 km time trial', '3 × 1.5 km threshold', '6 × 800 m intervals', 'Deload: 3 × 1 km threshold', '2 × 2.5 km race pace', '5 × 1 km intervals', '3 × 2 km race pace', 'Taper: 2 × 2 km race pace', 'Shakeout'];
 const LIFTS = {
   Legs: { day: 'Tuesday 4–5pm', note: 'Never to failure. Under 34% recovery: drop one set of the first three.', rows: [
     ['Trap-bar deadlift (or back squat)', '3 × 5', '2:30', '2–3 RIR'], ['Bulgarian split squat', '3 × 8 / leg', '1:30', '2 RIR'], ['Romanian deadlift', '3 × 8', '2:00', '2 RIR'], ['Nordic curl (or leg curl 3 × 10)', '3 × 4–6', '1:30', 'Controlled'], ['Standing calf raise, 2 s pause', '3 × 12', '1:00', '1–2 RIR'], ['Copenhagen side plank', '2 × 20 s / side', '0:45', '—']] },
@@ -730,7 +748,7 @@ function sessionFor(d) {
   if (wd === 1) return { kind: 'gym', title: w >= 10 ? 'Legs (light) · 4–5pm' : 'Legs · 4–5pm', lift: 'Legs', body: w >= 10 ? 'Half the sets. Keep it easy, the race is close.' : (w <= 2 || before ? 'Re-entry week: stop every set at 3 reps in reserve.' : 'Moderate. You played soccer last night.') };
   if (wd === 3) return { kind: 'gym', title: 'Push · 4–5pm', lift: 'Push', body: w <= 2 || before ? 'Re-entry week: stop every set at 3 reps in reserve.' : (w === 6 ? 'Deload week: same weights, half the sets.' : 'Normal progression.') };
   if (wd === 5) return { kind: 'gym', title: 'Pull · 3–4pm', lift: 'Pull', body: (w <= 2 || before ? 'Re-entry week: stop every set at 3 RIR. ' : '') + (wk.sat && !before ? `Optional ${wk.sat} km easy run right after, only if recovery is 50%+.` : '') };
-  if (wd === 2) return { kind: 'run', title: before ? 'Run · 4:30pm' : `Run · week ${w}`, body: before ? 'Plan starts Monday.' : wk.wed + '. Recovery under 50%? Run it easy instead.' };
+  if (wd === 2) return { kind: 'run', title: before ? 'Run · 4:30pm' : `Run · ${RUN_T[Math.min(Math.max(w, 1), 11) - 1]} · 4:30pm`, body: before ? 'Plan starts Monday.' : wk.wed + '. Recovery under 50%? Run it easy instead.' };
   return { kind: before ? 'rest' : 'run', title: before ? 'Reset day' : `Long run · ${wk.sun}`, body: before ? 'Church, meal prep at 1:30, weekly review at 3:00. The plan starts tomorrow.' : `Start at 4:00. ${wk.sun}. Easy means full sentences. Have a banana at 3:30 if the run is over 8 km.` };
 }
 function foodTypeFor(d) {
@@ -943,6 +961,32 @@ function renderTraining() {
   }));
 }
 
+
+/* ---------- week by week ---------- */
+const PHASE = ['Re-entry: easy runs, lifts at 3 RIR', 'Re-entry: add strides', 'Test week: your 3 km time trial sets your paces', 'Build: first threshold session', 'Build: first intervals', 'Thanksgiving deload: lighter everything', 'Race-pace work starts', 'Build: faster intervals, 10 km long run', 'Peak week: your longest run', 'Taper: less volume, stay sharp', 'Race week'];
+function renderWeekPlan() {
+  const sel = $('#weekPick');
+  if (!sel.options.length) {
+    for (let i = 0; i < 11; i++) { const mon = shift(PLAN_START, i * 7), sun = shift(mon, i === 10 ? 3 : 6); sel.append(el('option', { value: String(i + 1), text: `Week ${i + 1} · ${mon.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}–${sun.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` })); }
+    const cur = Math.min(11, Math.max(1, planWeek(new Date())));
+    sel.value = String(cur);
+    sel.addEventListener('change', renderWeekPlan);
+  }
+  const w = Number(sel.value), mon = shift(PLAN_START, (w - 1) * 7), today = iso(new Date());
+  const r = RUNS[w - 1];
+  $('#weekPickNote').textContent = `${PHASE[w - 1]}. Planned running: about ${r.km} km${r.sat ? ` (+${r.sat} km optional Saturday)` : ''}.`;
+  const box = $('#weekDays'); box.replaceChildren();
+  for (let i = 0; i < (w === 11 ? 4 : 7); i++) {
+    const d = shift(mon, i), sess = sessionFor(d), row = el('div', { class: `dayrow s-${sess.kind}${iso(d) === today ? ' today' : ''}` });
+    const left = el('div'); left.append(el('div', { class: 'dn', text: DOWL[dow(d)] }), el('div', { class: 'dd', text: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + (iso(d) === today ? ' · today' : '') }));
+    const right = el('div'); right.append(el('div', { class: 'tt', text: sess.title }));
+    if (sess.body) right.append(el('div', { class: 'small muted', text: sess.body }));
+    if (sess.lift && w < 11) { const ul = el('ul'); LIFTS[sess.lift].rows.forEach(x => ul.append(el('li', { text: `${x[0]}: ${x[1]}, rest ${x[2]}, ${x[3]}` }))); right.append(ul); }
+    if (dow(d) === 6 && w < 11) right.append(el('div', { class: 'small muted', text: 'Also: church 11:30, meal prep 1:30, weekly review 3:00.' }));
+    row.append(left, right); box.append(row);
+  }
+}
+
 /* ---------- sleep ---------- */
 function renderSleep() {
   const t = $('#rampTable'), today = iso(new Date());
@@ -1150,7 +1194,7 @@ function nextSessionName(from) { const d = shift(from, 1), s = sessionFor(d); re
 /* ---------- header ---------- */
 function renderBib() { const n = daysBetween(new Date(), RACE); $('#bibDays').textContent = Math.max(0, n); $('#bibSub').textContent = n > 0 ? 'days to go · goal 55:00' : n === 0 ? 'race day · goal 55:00' : 'race done'; }
 
-function renderAll() { renderBib(); renderWhy(); renderToday(); renderWeek(); renderTraining(); renderSleep(); if (!$('#p-progress').hidden) { renderProgress(); renderMedals(); } }
+function renderAll() { renderBib(); renderWhy(); renderToday(); renderWeek(); renderTraining(); renderWeekPlan(); renderSleep(); if (!$('#p-progress').hidden) { renderProgress(); renderMedals(); } }
 
 /* ---------- boot ---------- */
 bindInputs(); renderFood('standard'); renderGrocery();
