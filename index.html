@@ -167,6 +167,9 @@ section[role="tabpanel"]{display:grid;gap:22px}
 .dayrow .tt{font-weight:700}
 .dayrow ul{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--ink-2)}
 @media (max-width:560px){.dayrow{grid-template-columns:minmax(0,1fr);gap:4px}}
+.tzbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.tzbar .seg button{padding:5px 10px;font-size:12.5px}
+.tznote{border-radius:10px;padding:10px 14px;font-size:13.5px;background:var(--accent-soft);color:var(--ink)}
 .banner{border-radius:10px;padding:10px 14px;font-size:13.5px;background:var(--warn-soft);color:var(--warn)}
 
 /* today head */
@@ -284,6 +287,7 @@ svg text{fill:var(--ink-3);font-family:var(--f-mono);font-size:10px}
       <h1>Cody's <span>Playbook</span></h1>
       <p>Sleep first, then training, then school, then work. One page for the day, the week and the road to Dec 31.</p>
       <div class="whyline" id="whyLine"></div>
+      <div class="tzbar"><span class="label">Show times in</span><div class="seg" id="segTZ" role="group" aria-label="Time zone"></div><span class="small muted" id="codyClock"></span></div>
     </div>
     <div class="bib" aria-label="Race countdown">
       <div class="ev">10K · Thu 31 Dec 2026</div>
@@ -322,6 +326,7 @@ svg text{fill:var(--ink-3);font-family:var(--f-mono);font-size:10px}
     </div>
   </div>
   <div id="storeBanner" class="banner" hidden></div>
+  <div class="tznote" id="tzNote" hidden></div>
   <div class="nownext" id="nowNext" hidden></div>
   <div class="focus" id="focus"></div>
   <div class="streaks" id="streaks"></div>
@@ -396,7 +401,7 @@ svg text{fill:var(--ink-3);font-family:var(--f-mono);font-size:10px}
 
 <!-- WEEK -->
 <section role="tabpanel" id="p-week" aria-labelledby="t-week" hidden>
-  <div><div class="label">Fall 2026 · same every week</div><h2>The week</h2></div>
+  <div><div class="label">Fall 2026 · same every week · Texas time</div><h2>The week</h2></div>
   <div class="totals" id="weekTotals"></div>
   <div class="card"><div class="tbl"><div class="wk" id="weekGrid"></div></div>
     <div class="legend" id="legend" style="margin-top:14px"></div>
@@ -413,7 +418,7 @@ svg text{fill:var(--ink-3);font-family:var(--f-mono);font-size:10px}
   <div><div class="label">Lift Tue · Thu · Sat — Run Wed · Sun</div><h2>Training</h2></div>
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-      <h3>Your week, day by day</h3>
+      <h3>Your week, day by day <span class="small muted" style="text-transform:none;letter-spacing:0;font-family:var(--f-body)">· Texas time</span></h3>
       <label class="field" style="min-width:220px"><span class="label">Pick a week</span><select id="weekPick"></select></label>
     </div>
     <p class="small muted" id="weekPickNote" style="margin-top:6px"></p>
@@ -696,6 +701,24 @@ const fmtS = m => { m %= 1440; const h = Math.floor(m / 60), mi = m % 60; return
 const fmtDate = d => d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
 
+/* ---------- time zones ---------- */
+const CODY_TZ = 'America/Chicago';
+const LOCAL_TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || CODY_TZ; } catch (e) { return CODY_TZ; } })();
+const TZ_CHOICES = [['cody', 'Texas (Cody)', CODY_TZ], ['Europe/Madrid', 'Madrid', 'Europe/Madrid'], ['local', 'My time', LOCAL_TZ]];
+function tzParts(date, tz) {
+  const o = {}; new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }).formatToParts(date).forEach(p => { if (p.type !== 'literal') o[p.type] = Number(p.value); });
+  if (o.hour === 24) o.hour = 0; return o;
+}
+function tzOffset(date, tz) { const p = tzParts(date, tz); return Math.round((Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute) - date.getTime()) / 60000); }
+function codyNow() { const p = tzParts(new Date(), CODY_TZ); return new Date(p.year, p.month - 1, p.day, p.hour, p.minute); }
+function codyToday() { const n = codyNow(); const d = new Date(n.getFullYear(), n.getMonth(), n.getDate()); return n.getHours() < 5 ? new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1) : d; }
+let viewTZKey = (() => { try { const v = localStorage.getItem('pb-tz'); if (v) return v; } catch (e) {} return LOCAL_TZ === CODY_TZ ? 'cody' : (LOCAL_TZ === 'Europe/Madrid' ? 'Europe/Madrid' : 'local'); })();
+const viewTZ = () => (TZ_CHOICES.find(c => c[0] === viewTZKey) || TZ_CHOICES[0])[2];
+const tzName = () => (TZ_CHOICES.find(c => c[0] === viewTZKey) || TZ_CHOICES[0])[1];
+/* minutes shift between Cody's clock and the viewer's clock on a given Cody date (uses noon to avoid DST edges) */
+function tzShift(d) { const realNoon = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 12) - tzOffset(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 12)), CODY_TZ) * 60000); return tzOffset(realNoon, viewTZ()) - tzOffset(realNoon, CODY_TZ); }
+function fmtTZ(m, d, short) { const sh = tzShift(d), v = m + sh, dayOff = Math.floor(v / 1440) - (sh === 0 ? Math.floor(m / 1440) : 0); const t = short ? fmtS(((v % 1440) + 1440) % 1440) : fmtM(((v % 1440) + 1440) % 1440); return t + (dayOff > 0 ? '⁺¹' : dayOff < 0 ? '⁻¹' : ''); }
+
 /* ---------- plan content ---------- */
 const RUNS = [
   { wed: '4 km easy (~28 min)', sun: '5 km easy', km: 9 },
@@ -770,7 +793,7 @@ function showTab(t) {
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { showTab(b.dataset.tab); window.scrollTo({ top: 0 }); }));
 
 /* ---------- state ---------- */
-let viewDate = midnight(new Date());
+let viewDate = codyToday();
 const LOGS = {}; // iso -> doc
 let db = null, storeMode = 'loading';
 const writeChains = {};
@@ -794,12 +817,12 @@ function saveLog(s, doc) {
 
 /* ---------- TODAY ---------- */
 function renderToday() {
-  const d = viewDate, s = iso(d), wd = dow(d), w = planWeek(d), today = iso(midnight(new Date()));
+  const d = viewDate, s = iso(d), wd = dow(d), w = planWeek(d), today = iso(codyToday());
   const sess = sessionFor(d);
   $('#todayKicker').textContent = s < '2026-10-19' ? 'Plan starts Mon, Oct 19' : (s > '2026-12-31' ? 'After race day' : `Week ${w} of 11` + (wd === 0 ? ' · new week, clean slate' : s === today ? ' · today' : ''));
   $('#todayTitle').textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
   const dt = { soc: 'Soccer day', gym: 'Lifting day', run: 'Run day', rest: 'Reset day' }[sess.kind];
-  $('#todaySub').textContent = `${dt} · ${foodTypeFor(d) === 'high' ? 'high-carb food' : 'standard food'} · lights out ${fmtM(1440 + lightsOutFor(d))}`;
+  $('#todaySub').textContent = `${dt} · ${foodTypeFor(d) === 'high' ? 'high-carb food' : 'standard food'} · lights out ${fmtTZ(1440 + lightsOutFor(d), d)}`;
   $('#goToday').disabled = s === today;
   // session
   const box = el('div', { class: 'sess s-' + sess.kind });
@@ -813,7 +836,7 @@ function renderToday() {
   $('#session').replaceChildren(box);
   // timeline
   const items = DATA.schedule[String(wd)].filter(e => !(s === '2026-12-28' && /Soccer|soccer|Travel/.test(e[1])));
-  const lo = lightsOutFor(d), nowM = (() => { const n = new Date(); const m = n.getHours() * 60 + n.getMinutes(); return m < 300 ? m + 1440 : m; })();
+  const lo = lightsOutFor(d), nowM = (() => { const n = codyNow(); const m = n.getHours() * 60 + n.getMinutes(); return m < 300 ? m + 1440 : m; })();
   const ul = $('#timeline'); ul.replaceChildren();
   for (const [cat, title0, a, b0] of items) {
     let title = title0, b = b0, aa = a;
@@ -824,7 +847,7 @@ function renderToday() {
     const li = el('li');
     if (s === today) { if (nowM >= aa && nowM < b) li.classList.add('now'); else if (nowM >= b) li.classList.add('past'); }
     if (['gym', 'soc', 'run', 'class'].includes(cat)) li.classList.add('big');
-    li.append(el('span', { class: 'tm', text: `${fmtS(aa)}–${fmtS(b)}` }),
+    li.append(el('span', { class: 'tm', text: `${fmtTZ(aa, d, true)}–${fmtTZ(b, d, true)}` }),
       el('span', { class: 'blk' }, el('span', { class: 'sw c-' + cat, style: `--sw:var(--${cat}-br)` }), el('span', { class: 'nm', text: title })));
     ul.append(li);
   }
@@ -834,11 +857,15 @@ function renderToday() {
     const cur = blocks.find(e => nowM >= e[2] && nowM < e[3]), nxt = blocks.find(e => e[2] > nowM);
     const asleep = nowM >= 1440 + lo || nowM < 600;
     nn.hidden = false;
-    nn.innerHTML = `<div class="now"><span class="label">Now</span><span class="big">${asleep ? 'Sleep' : cur ? cur[1] : 'Free time'}</span><span class="small">${asleep ? 'Up at 10:00am' : cur ? 'until ' + fmtM(cur[3]) : 'Your time. Nothing scheduled.'}</span></div><div><span class="label">Next</span><span class="big">${nxt && !asleep ? nxt[1] : 'Wake + routine'}</span><span class="small muted">${nxt && !asleep ? 'at ' + fmtM(nxt[2]) : '10:00am'}</span></div>`;
+    const away = viewTZKey !== 'cody' && tzShift(d) !== 0, who = away ? 'Cody right now' : 'Now';
+    nn.innerHTML = `<div class="now"><span class="label">${who}</span><span class="big">${asleep ? 'Sleep' : cur ? cur[1] : 'Free time'}</span><span class="small">${asleep ? 'Up at ' + fmtTZ(600, d) : cur ? 'until ' + fmtTZ(cur[3], d) : (away ? 'His free time. Nothing scheduled.' : 'Your time. Nothing scheduled.')}</span></div><div><span class="label">Next</span><span class="big">${nxt && !asleep ? nxt[1] : 'Wake + routine'}</span><span class="small muted">${nxt && !asleep ? 'at ' + fmtTZ(nxt[2], d) : fmtTZ(600, d)}</span></div>`;
   } else nn.hidden = true;
   const FOCUS = ['Get up at 10:00 every day and follow the lights-out ramp. Nothing else is new yet.', 'Add Sunday meal prep and the nightly launch pad.', 'Add the full wind-down routine and the Wed/Sun runs.', 'Everything, plus the Sunday review on the Progress tab.'];
   $('#focus').innerHTML = s < '2026-10-19' ? '<b>Starts tomorrow.</b> Week 1 has one job: up at 10:00 every day.' : s > '2026-12-31' ? '' : `<b>This week's focus:</b> ${FOCUS[Math.min(w, 4) - 1]}`;
-  $('#lightsPill').textContent = `Wake 10:00 · lights out ${fmtM(1440 + lo)}`;
+  $('#lightsPill').textContent = `Wake ${fmtTZ(600, d)} · lights out ${fmtTZ(1440 + lo, d)}`;
+  const sh = tzShift(d), tn = $('#tzNote');
+  if (viewTZKey !== 'cody' && sh !== 0) { const hrs = Math.abs(sh) / 60, cn = codyNow(); tn.hidden = false; tn.innerHTML = `<b>Times shown in ${tzName()} time.</b> Cody is in Texas, ${hrs} hour${hrs === 1 ? '' : 's'} ${sh > 0 ? 'behind' : 'ahead of'} you. It's ${cn.toLocaleDateString('en-US', { weekday: 'long' })} ${fmtM(cn.getHours() * 60 + cn.getMinutes())} for him. ⁺¹ means the next day for you.`; }
+  else tn.hidden = true;
   // check-in
   const log = getLog(s), checks = $('#checks'); checks.replaceChildren();
   for (const [k, name, why] of HABITS) {
@@ -884,7 +911,7 @@ function bindInputs() {
   }));
   $('#prevDay').addEventListener('click', () => { viewDate = new Date(viewDate.getTime() - DAYMS); viewDate = midnight(viewDate); renderToday(); });
   $('#nextDay').addEventListener('click', () => { viewDate = midnight(new Date(viewDate.getTime() + DAYMS + 3600000)); renderToday(); });
-  $('#goToday').addEventListener('click', () => { viewDate = midnight(new Date()); renderToday(); });
+  $('#goToday').addEventListener('click', () => { viewDate = codyToday(); renderToday(); });
 }
 
 /* ---------- meals ---------- */
@@ -928,7 +955,7 @@ $('#clearGrocery').addEventListener('click', () => { store.set('pb-grocery', '{}
 /* ---------- week ---------- */
 function renderWeek() {
   const g = $('#weekGrid'); g.replaceChildren(el('div'));
-  const td = dow(new Date());
+  const td = dow(codyToday());
   DOW.forEach((d, i) => g.append(el('div', { class: 'dh' + (i === td ? ' today' : ''), html: `${d}<small>${['Soccer', 'Legs', 'Run', 'Push', 'Soccer', 'Pull', 'Long run'][i]}</small>` })));
   const grid = el('div', { class: 'wkg' });
   for (let h = 10; h <= 24; h++) { const r = (h - 10) * 4 + 1, hh = h % 24; grid.append(el('div', { class: 'tl2', style: `grid-row:${r}`, text: `${(hh % 12) || 12}${hh < 12 ? 'a' : 'p'}` }), el('div', { class: 'hl', style: `grid-row:${r}` })); }
@@ -945,7 +972,7 @@ function renderWeek() {
 
 /* ---------- training ---------- */
 function renderTraining() {
-  const w = planWeek(new Date()), t = $('#runTable');
+  const w = planWeek(codyToday()), t = $('#runTable');
   t.replaceChildren(el('tr', { html: '<th>Wk</th><th>Dates</th><th>Wednesday</th><th>Sunday (long)</th><th>Sat (optional)</th><th class="r">km</th><th>Logged</th>' }));
   RUNS.forEach((r, i) => {
     const mon = new Date(PLAN_START.getTime() + i * 7 * DAYMS + 3600000), sun = new Date(mon.getTime() + 6 * DAYMS);
@@ -968,11 +995,11 @@ function renderWeekPlan() {
   const sel = $('#weekPick');
   if (!sel.options.length) {
     for (let i = 0; i < 11; i++) { const mon = shift(PLAN_START, i * 7), sun = shift(mon, i === 10 ? 3 : 6); sel.append(el('option', { value: String(i + 1), text: `Week ${i + 1} · ${mon.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}–${sun.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` })); }
-    const cur = Math.min(11, Math.max(1, planWeek(new Date())));
+    const cur = Math.min(11, Math.max(1, planWeek(codyToday())));
     sel.value = String(cur);
     sel.addEventListener('change', renderWeekPlan);
   }
-  const w = Number(sel.value), mon = shift(PLAN_START, (w - 1) * 7), today = iso(new Date());
+  const w = Number(sel.value), mon = shift(PLAN_START, (w - 1) * 7), today = iso(codyToday());
   const r = RUNS[w - 1];
   $('#weekPickNote').textContent = `${PHASE[w - 1]}. Planned running: about ${r.km} km${r.sat ? ` (+${r.sat} km optional Saturday)` : ''}.`;
   const box = $('#weekDays'); box.replaceChildren();
@@ -989,13 +1016,13 @@ function renderWeekPlan() {
 
 /* ---------- sleep ---------- */
 function renderSleep() {
-  const t = $('#rampTable'), today = iso(new Date());
+  const t = $('#rampTable'), today = iso(codyToday());
   t.replaceChildren(el('tr', { html: '<th>Dates</th><th>Lights out</th><th>Wake</th><th>In bed</th>' }));
   for (const [a, b, m] of SLEEP_RAMP) {
     const cur = today >= a && today <= b;
     t.append(el('tr', { class: cur ? 'cur' : '', html: `<td class="num">${fmtDate(fromIso(a))} – ${fmtDate(fromIso(b))}${cur ? ' <span class="pill acc">now</span>' : ''}</td><td class="num"><b>${fmtM(1440 + m)}</b></td><td class="num">10:00am</td><td class="num">${Math.floor((600 - m) / 60)}h${pad((600 - m) % 60)}</td>` }));
   }
-  $('#tonight').textContent = fmtS(1440 + lightsOutFor(new Date()));
+  $('#tonight').textContent = fmtS(1440 + lightsOutFor(codyToday()));
 }
 
 /* ---------- progress ---------- */
@@ -1003,7 +1030,7 @@ function renderProgress() {
   const keys = Object.keys(LOGS).sort();
   const wts = keys.filter(k => LOGS[k].weight).map(k => [k, Number(LOGS[k].weight)]);
   const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
-  const today = midnight(new Date());
+  const today = codyToday();
   const lastN = (n, off = 0) => { const out = []; for (let i = off; i < off + n; i++) out.push(iso(new Date(today.getTime() - i * DAYMS))); return out; };
   const wAvg = days => avg(days.map(d => LOGS[d]?.weight).filter(Boolean).map(Number));
   const recAvg = days => avg(days.map(d => LOGS[d]?.rec).filter(v => v !== null && v !== undefined && v !== '').map(Number));
@@ -1085,7 +1112,7 @@ const hit = (s, k) => !!(LOGS[s] && LOGS[s].h && LOGS[s].h[k]);
 const shift = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
 function streakOf(k) {
   // "never miss twice": one missed day doesn't break it, two in a row do. Today only counts once it's ticked.
-  let d = midnight(new Date()), n = 0, gap = 0;
+  let d = codyToday(), n = 0, gap = 0;
   if (!hit(iso(d), k)) d = shift(d, -1);
   for (let i = 0; i < 120 && iso(d) >= '2026-10-12'; i++, d = shift(d, -1)) {
     if (hit(iso(d), k)) { n++; gap = 0; } else if (++gap >= 2) break;
@@ -1094,7 +1121,7 @@ function streakOf(k) {
 }
 function bestStreak(k) {
   const keys = Object.keys(LOGS).sort(); if (!keys.length) return 0;
-  const end = iso(new Date()); let best = 0, n = 0, gap = 0;
+  const end = iso(codyToday()); let best = 0, n = 0, gap = 0;
   for (let d = fromIso(keys[0]); iso(d) <= end; d = shift(d, 1)) {
     const s = iso(d);
     if (hit(s, k)) { n++; gap = 0; best = Math.max(best, n); } else if (s !== end && ++gap >= 2) n = 0;
@@ -1103,12 +1130,12 @@ function bestStreak(k) {
 }
 function weekDays(d) { const mon = shift(midnight(d), -dow(d)); return Array.from({ length: 7 }, (_, i) => shift(mon, i)); }
 function dotsFor(fn) {
-  const today = iso(new Date());
-  return '<div class="dots">' + weekDays(new Date()).map(d => { const s = iso(d); const st = fn(s); const fut = s > today; return `<span class="dot ${fut ? 'fut' : st}${s === today ? ' tdy' : ''}" title="${fmtDate(d)}"></span>`; }).join('') + '</div>';
+  const today = iso(codyToday());
+  return '<div class="dots">' + weekDays(codyToday()).map(d => { const s = iso(d); const st = fn(s); const fut = s > today; return `<span class="dot ${fut ? 'fut' : st}${s === today ? ' tdy' : ''}" title="${fmtDate(d)}"></span>`; }).join('') + '</div>';
 }
 function renderStreaks() {
-  const today = iso(new Date());
-  const perfect = weekDays(new Date()).filter(d => { const L = LOGS[iso(d)]; return L && HABITS.every(h => L.h[h[0]]); }).length;
+  const today = iso(codyToday());
+  const perfect = weekDays(codyToday()).filter(d => { const L = LOGS[iso(d)]; return L && HABITS.every(h => L.h[h[0]]); }).length;
   const tiles = [
     ['Wake streak', streakOf('wake'), 'days', s => hit(s, 'wake') ? 'on' : ''],
     ['Lights-out streak', streakOf('lights'), 'nights', s => hit(s, 'lights') ? 'on' : ''],
@@ -1164,7 +1191,7 @@ function renderMedals() {
   const { got } = checkMedals(false);
   $('#medalCount').textContent = `${got.length} of ${MEDALS.length}`;
   $('#medals').replaceChildren(...MEDALS.map(([n, d], i) => { const on = got.includes(n); const e = el('div', { class: 'medal' + (on ? ' got' : '') }); e.innerHTML = `${MEDAL_SVG(i + 1)}<span class="mt">${n}</span><span class="small">${d}</span>`; return e; }));
-  const t = $('#chain'), today = midnight(new Date()), days = [];
+  const t = $('#chain'), today = codyToday(), days = [];
   for (let i = 13; i >= 0; i--) days.push(shift(today, -i));
   t.innerHTML = '<thead><tr><th></th>' + days.map(d => `<th>${'MTWTFSS'[dow(d)]}</th>`).join('') + '</tr></thead><tbody>' + HABITS.map(([k, n]) => `<tr><th>${n}</th>` + days.map(d => { const s = iso(d); return `<td><i class="${hit(s, k) ? 'on' : ''}" title="${fmtDate(d)}"></i></td>`; }).join('') + '</tr>').join('') + '</tbody>';
 }
@@ -1188,19 +1215,23 @@ const DONE_LINES = [
   () => 'That\'s how race-ready happens: one ordinary session at a time.',
   () => 'Showed up. That\'s the whole skill.',
 ];
-function weekSessions() { return weekDays(new Date()).filter(d => { const L = LOGS[iso(d)]; return L && (L.training === 'done' || L.training === 'min'); }).length; }
+function weekSessions() { return weekDays(codyToday()).filter(d => { const L = LOGS[iso(d)]; return L && (L.training === 'done' || L.training === 'min'); }).length; }
 function nextSessionName(from) { const d = shift(from, 1), s = sessionFor(d); return `${s.title} on ${d.toLocaleDateString('en-US', { weekday: 'long' })}`; }
 
 /* ---------- header ---------- */
-function renderBib() { const n = daysBetween(new Date(), RACE); $('#bibDays').textContent = Math.max(0, n); $('#bibSub').textContent = n > 0 ? 'days to go · goal 55:00' : n === 0 ? 'race day · goal 55:00' : 'race done'; }
+function renderBib() { const n = daysBetween(codyToday(), RACE); $('#bibDays').textContent = Math.max(0, n); $('#bibSub').textContent = n > 0 ? 'days to go · goal 55:00' : n === 0 ? 'race day · goal 55:00' : 'race done'; }
 
-function renderAll() { renderBib(); renderWhy(); renderToday(); renderWeek(); renderTraining(); renderWeekPlan(); renderSleep(); if (!$('#p-progress').hidden) { renderProgress(); renderMedals(); } }
+function renderTZ() {
+  $('#segTZ').replaceChildren(...TZ_CHOICES.filter((c, i) => i < 2 || (LOCAL_TZ !== CODY_TZ && LOCAL_TZ !== 'Europe/Madrid')).map(([k, n]) => { const b = el('button', { 'aria-pressed': k === viewTZKey ? 'true' : 'false', text: n }); b.addEventListener('click', () => { viewTZKey = k; try { localStorage.setItem('pb-tz', k); } catch (e) {} renderTZ(); renderToday(); }); return b; }));
+  const cn = codyNow(); $('#codyClock').textContent = `Cody's time: ${cn.toLocaleDateString('en-US', { weekday: 'short' })} ${fmtM(cn.getHours() * 60 + cn.getMinutes())}`;
+}
+function renderAll() { renderTZ(); renderBib(); renderWhy(); renderToday(); renderWeek(); renderTraining(); renderWeekPlan(); renderSleep(); if (!$('#p-progress').hidden) { renderProgress(); renderMedals(); } }
 
 /* ---------- boot ---------- */
 bindInputs(); renderFood('standard'); renderGrocery();
 let initialTab = (location.hash || '').slice(1) || store.get('pb-tab') || 'today';
 showTab(initialTab); renderAll();
-setInterval(() => { if (!$('#p-today').hidden && iso(viewDate) === iso(new Date())) renderToday(); }, 60000);
+setInterval(() => { renderTZ(); if (!$('#p-today').hidden && iso(viewDate) === iso(codyToday())) renderToday(); }, 60000);
 
 (async () => {
   let ns = null;
